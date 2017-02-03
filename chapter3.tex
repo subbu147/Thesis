@@ -32,14 +32,43 @@ selectable on-the-fly by software as long as operating frequency ranges are obse
 
 \section{AIC3204 : Audio Codec}
 TLV320AIC3204 is an analog interface chip (AIC) of TI company which is a flexible, low-power, low-voltage stereo audio codec with programmable inputs and outputs, PowerTune capabilities, fixed predefined and parameterizable signal-processing blocks, integrated PLL, integrated LDOs and flexible digital interfaces.  It has both recording and playback capabilities. The record part of the TLV320AIC3204 covers operations from 8kHz mono to 192kHz stereo recording, and contains programmable input channel configurations covering single-ended and differential setups, as well as floating or mixing input signals. It also includes a digitally-controlled stereo microphone preamplifier and integrated microphone bias. It integrates A / D and D / A conversion functions, it achieved high-precision A / D and D / A converter in the low-cost using Σ-△ technology. The size of the chip is very small and compact and its is available in  5 mm × 5 mm 32-pin QFN Package. 
-As it has capabilities of recording stereo audio signals, it has two channels that it can record. We use one channel for respiration recording and the other for paramedic's log recording.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale = 0.5 ]{AIC3204.JPG}
+	\caption{AIC3204 Block Diagram\label{aic3204}}
+\end{figure}
+
+Figure \ref{aic3204} displays the audio codec's architecture.It has capabilities of recording stereo audio signals .It has two channels that it can record. One channel is used for respiration recording and the other for paramedic's log recording.
+Each
+channel of the stereo audio ADC consists of a signal-processing engine with fixed processing blocks.The signal processing blocks available are:
+First-order IIR
+, Scalable number of biquad filters
+, Variable-tap FIR filter
+and AGC.The choice between these processing blocks is part of the PowerTune strategy to balance power
+conservation and signal-processing flexibility. Less signal-processing capability reduces the power
+consumed by the device.
 \section{ADS1292R : ECG Frontend}
 ADS1292R is the ECG analog front end chip to which the electrode output is connected to.
 ADS1292R is a two channel, simultaneous sampling, 24-bit, delta-sigma (ΔΣ) analog-to-digital converters (ADCs) with a built-in programmable gain amplifier (PGA), internal reference, and an onboard oscillator.  ADS1292R incorporate all features commonly required in portable, low-power medical electrocardiogram (ECG), sports, and fitness applications.With high levels of integration and exceptional performance, the ADS1292R enable the creation of scalable medical instrumentation systems at significantly reduced size, power, and overall cost. ADS1292R have a flexible input multiplexer per channel that can be independently connected to the internally-generated signals for test, temperature, and lead-off detection. Additionally, any configuration of input channels can be selected for derivation of the right leg drive (RLD) output signal. The ADS1292R operate at data rates from 500SPS up to 8 kSPS. The devices are packaged in a 5-mm × 5-mm, 32-pin thin quad flat pack (TQFP). Operating temperature is specified from –40°C to +85°C. ADS1292R is interfaced with the DSP through SPI.
+ \begin{figure}[h]
+ 	\centering
+ 	\includegraphics[scale = 0.5 ]{ADS1292R.JPG}
+ 	\caption{ADS1292R Functional Block Diagram\label{ADS1292R}}
+ \end{figure}
  
 \section{MPU9250 : Accelerometer sensor}
-MPU-9250 is a 9-axis MotionTracking device that combines a 3-axis gyroscope, 3-axis accelerometer, 3-axis magnetometer and a Digital Motion Processor™ (DMP).With its dedicated I2C sensor bus, the MPU-9250 directly provides complete 9-axis MotionFusion™ output.MPU-9250 features three dedicated 16-bit analog-to-digital converters (ADCs) for digitizing each of the gyroscope outputs, accelerometer outputs, and magnetometer outputs. For precision tracking of both fast and slow motions MPU-9250 provides a user-programmable accelerometer full-scale range of ±2g, ±4g, ±8g, and ±16g. The package size down to a footprint and thickness of 3x3x1mm, to provide a very small yet high performance low cost package. 
+MPU-9250 is a 9-axis MotionTracking device that combines a 3-axis gyroscope, 3-axis accelerometer, 3-axis magnetometer and a Digital Motion Processor™ (DMP).With its dedicated I2C sensor bus, the MPU-9250 directly provides complete 9-axis MotionFusion™ output.MPU-9250 features three dedicated 16-bit analog-to-digital converters (ADCs) for digitizing each of the gyroscope outputs, accelerometer outputs, and magnetometer outputs. For precision tracking of both fast and slow motions MPU-9250 provides a user-programmable accelerometer full-scale range of ±2g, ±4g, ±8g, and ±16g. The package size down to a footprint and thickness of 3x3x1mm, to provide a very small yet high performance low cost package. The following figure shows the architecture of MPU9250.A valid accelerometer datat is available 30 ms(typical) after wakeup from sleep.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale = 0.5 ]{MPU9250.JPG}
+	\caption{MPU9250 Architecture\label{mpu9250}}
+\end{figure}
+
+The MPU-9250 contains a 512-byte FIFO register that is accessible via the Serial Interface. The FIFO configuration register determines which data is written into the FIFO. Possible choices include gyro data, accelerometer data, temperature readings, auxiliary sensor readings, and FSYNC input. A FIFO counter keeps track of how many bytes of valid data are contained in the FIFO. The FIFO register supports burst reads. The interrupt function may be used to determine when new data is available.
+
+The MPU9250 has multiple user-configurable power modes. The mode which we are interested is Sleep mode (consumes 8 uA)and Low-Power Accelerometer Mode which consumes 450 uA. 
+ 
 \section{Temperature sensor}
 \subsection{ STS21 : Environment temperature sensor}
 STS21 is a low power, fully self calibrated digital temperature sensor well suited for applications with high demand on temperature accuracy. With dedicated I2C bus it directly provides the temperature output. The sensor comes in a package sized 3 x 3mm footprint and 1.1 mm height. 
