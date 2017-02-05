@@ -16,7 +16,23 @@ Data collection
 Power management 
  \end{description}
 
-$//TODO$ The flow chart goes here
+ \begin{figure}[h]
+	\centering
+	\includegraphics[scale = 1 ]{main.JPG}
+	\caption{Main thread\label{main}}
+\end{figure}
+
+ \begin{figure}[h]
+	\centering
+	\includegraphics[scale = 0.5 ]{dma_interrupt.JPG}
+	\caption{DMA Interrupt Service Routine\label{dma_isr}}
+\end{figure}
+
+ \begin{figure}[h]
+	\centering
+	\includegraphics[scale = 1 ]{ECG_interrupt.JPG}
+	\caption{Hardware Interrupt Service Routine\label{ecg_isr}}
+\end{figure}
 
 \section{Initializing System}
 First thing the firmware does after boot-up is to initialize the clock by configuring the PLL registers. PLL is configured to generate a 100 MHz clock to tick the system. After the clocks have been set up, the multiplexed I/O pins are configured to function as a specific peripheral or a input/output pins. Then the clock and power to those I/O pins and peripherals are enabled. After the I/O pins are configured, the communication peripherals such as SPI,I2C and I2S are configured. Their mode of operation(master or slave) , frequency of operation etc are initialized and configured. DSP's I2S module is configured as the I2S master(who supply bit clock and word clock) and the Audio codec AIC3204 is configured as the I2S slave. 
@@ -37,7 +53,7 @@ The firmware is designed for concurrent data acquisition using dedicated hardwar
  The following would provide insight and explain in detail the above mentioned mechanism with the context of audio signal acquisition .There are primarily two audio channels that are sampled at a very high frequency of 12 KHz. The audio signal acquisition and storage is the most intensive task of the entire system and also very power hungry task. Involving DSP to do the complete task would completely utilize the DSP's computational bandwidth allowing no space for DSP to do other useful work and also the overhead of doing this operation through DSP is very high.  TMS320C5515 includes 4 DMA controllers with four DMA channels each. It can move data among internal memory, external memory, and peripherals without intervention from the DSP and in the background of DSP operation. So DMA data transfer is used in audio signal collection and storing.  The following diagram shows the DMA in the DSP 
  \begin{figure}[h]
  	\centering
- 	\includegraphics[scale = 0.5 ]{DMA overview.PNG}
+ 	\includegraphics[scale = 0.5 ]{DMA_overview.PNG}
  	\caption{Conceptual Block Diagram of DMA controller\label{DMA_Architecture}}
  \end{figure} 
  The DMA is configured to collect the audio signal from the I2S peripheral and move it to SD card.The I2S receive event triggers the DMA to collect the audio signal. When the DMA fills up the allocated buffer it interrupts the CPU and the DSP initiates the SD card write using  other DMA channels and DMA takes care of the further action. The system continues acquiring audio signals even while writing data into the SD card . This is done through using DMA in ping-pong mode. The following diagram shows the ping pong operation mode.
@@ -49,7 +65,17 @@ The firmware is designed for concurrent data acquisition using dedicated hardwar
  When the ping buffer data is being copied to the SD card , the DMA acquires the incoming data and fills it in the pong buffer. So DMA used in ping-pong mode enables the system to collect the audio signals and store the previously cached signal simultaneously. 
  
  As mentioned earlier the measurement of temperature signal is triggered for every 500 interrupts of ECG. This adds a overhead of checking if the interrupt count every time ECG interrupt is serviced. The measurement of temperature from the context of ECG interrupt increases the worst case execution time of the ISR which is not preferred in general for typical application. One could argue that the system could have used a timer and generate a timer interrupt every one second and trigger the temperature measurement instead of tightly coupling it with the ECG ISR. The reason for not going with this approach is the cost in terms of power for running a dedicated timer for the temperature measurement. Power is the most scarce resource in the system and that is the important reason why the former method is chosen than the latter one. As long as the tasks could be finished on available clock cycles without disturbing other functionality of the system, it is fine even if the worst case execution time of the ISR increases.
- 
+ \begin{figure}[h]
+ 	\centering
+ 	\includegraphics[scale = 0.5 ]{record_dataflow.JPG}
+ 	\caption{Flow of data in during record\label{record_datalow}}
+ \end{figure}
+
 \subsection{Importing the Data}
 Once the data has been saved to the micro SD card and testing is complete, it can be read directly by a computer. A custom file system is used to store the data, so it can not be directly recognized on a computer. A filesystem driver for the custom filesystem is developed in python, which could parse the data in the SD card and create files of each of the signals. These files are read by a MATLAB script that does post processing and generates data vectors corresponding to each signal. For example in case of body temperature sensor, the data in the file is the raw ADC values, the calibration details of the body temperature is embedded into MATLAB code , so it does convert raw ADC temperature  data into a meaningful value through the calibration information.  
 MATLAB plots the data and visualizes it in such a way that the user can relate and see all the signals together and it allows user to jump into the time of interest. 
+ \begin{figure}[h]
+	\centering
+	\includegraphics[scale = 0.5 ]{play_dataflow.JPG}
+	\caption{Flow of data in import record\label{play_dataflow}}
+\end{figure}
