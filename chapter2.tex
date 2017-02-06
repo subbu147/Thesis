@@ -91,7 +91,7 @@ BlueBox must perform at least as well as commercially available ECG monitoring d
 \section{System Requirements}\label{system requirements}
 \subsection{Hardware Requirement}
 
-\hspace{10mm}A summary of the desired system specifications are listed in \ref{table:}. Both minimum and desired specifications are listed. Further details of each specification are provided below .
+\hspace{10mm}A summary of the desired system specifications are listed in \ref{table:Behavioural_specs}. Both minimum and desired specifications are listed. Further details of each specification are provided below .
 \begin{table}
 	\centering
 	\begin{tabular}{|r |r|r|}
@@ -103,8 +103,8 @@ BlueBox must perform at least as well as commercially available ECG monitoring d
 		Power Dissipation & 9.7 mW & 9.7 mW \\
 		\hline
 	\end{tabular}
-	\caption{Audio signal requirements.}
-	\label{table:aud}
+	\caption{BlueBox Behavioural Specification.}
+	\label{table:Behavioural_specs}
 \end{table}
 
 The signal requirements and the use case  provides the system level electrical requirements.  To meet the requirement ECG is sampled at 500Hz, two audio channels are sampled at 12000 Hz, Accelerometer is sampled at 12 Hz and two temperatures are sampled at 2Hz. From the target sampling frequency and the resolution of all the signals, audio accounts for 48000 bytes/second , ECG accounts for 2000 bytes of data every second. Accelerometer and temperature data together sums up to 84 bytes per second. Approximatery 50 kilobytes of data is produces every second. For 4 hours 720 MB of data is generated. The system should have enough storage to save the data and also needs have enough processing bandwidth. 
@@ -141,7 +141,31 @@ limited amount of resources provided by the system, an engineer has to think car
 \hspace{10mm}As mentioned in the previous section BlueBox has an size and weight constraint which is considered during the design to optimize the resources of the system to fulfill the constraints. BlueBox system is required to run for a minimum of two hours on battery.  
 BlueBox is optimized to have the minimum required resources to acquire, process and store the large number of high frequency data sets, mentioned in the previous section, with the required performance.  
 Coming to battery selection. Battery capacity is directly proportional to its area and weight\cite{} .The battery consideration is primarily based on its size, weight and heat dissipation as BlueBox should be a medical grade wearable. So here the battery capacity is traded off to meet the size and medical guidelines.  
-TODO: Calculation on battery power consumption
+
+The table \ref{table:power_rating} lists the major components and their power consumption. The best battery that fulfill the size constraint has capacity of 300 mAh @ 3.7 volts. Which is equivalent to 1110 mWh of energy. The power consumption of these mentioned components sums up to 895 mW. At this rate the system will deplete the battery in 75 minutes. 
+
+From the above  calculations it is evident that energy is a scarce resource of this system and it is very important to do rigorous power management to extend the battery life to meet the requirement.So BlueBox with a limited power budget posts the interesting challenge of optimizing the power consumption of the  device while meeting all deadlines fulfilling the functionalities with the constrained resources on the system and keep the device running for a minimum of two hours.
+
+The thesis provides the solution to the above mentioned problem statement with structured methodologies for extensive power management through the firmware. The further chapters gives the general context of the hardware and software architecture . Then dives into the power management techniques used to solve the above mentioned problem.
+\begin{table}
+	\centering
+	\begin{tabular}{|r|r|}
+		\hline
+		Component & Typical power consumption\\
+		\hline
+		TMS320C5515 DSP CPU &  360 mW \\
+		SDHC card, 50 MHz @ 3.3 V   &  495 mW \\
+		AIC3204 Audio Codec  &  21.9 mW \\	
+		ADS1292R ECG front end & 1.4 mW \\
+		MPU9250 Accelerometer Sensor &  12.21 mW \\
+		Environment temperature sensor  &  1 mW \\
+		Microphone  & 3.3 mW \\
+		Body temperature sensor  &  0.2 mW \\	
+		\hline
+	\end{tabular}
+	\caption{Typical power consumption of components}
+	\label{table:power_rating}
+\end{table}
 
 %%% Local Variables: ***
 %%% mode: latex ***
