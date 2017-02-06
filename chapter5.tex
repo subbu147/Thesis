@@ -184,7 +184,7 @@ V\textsubscript{DD} in order to save power. Even though delay is increasing, the
  
  \section{Sensor sub-system power management}
  
- A sensor is a device that converts real world physical parameters into electrical signals that a computer can understand.  They are the most important part of the BlueBox system. As discussed in section \ref{sec:abc} BlueBox employs five different sensors. Most of which are performing active real time sensing. They also do have a processing capabilities embodied with them , which are required to reduce the noise in the signal.  They contribute to the significant amount of power consumed by the system.  
+ A sensor is a device that converts real world physical parameters into electrical signals that a computer can understand.  They are the most important part of the BlueBox system. As shown in table \ref{table:sub-system} BlueBox employs five different sensors. Most of which are performing active real time sensing. They also do have a processing capabilities embodied with them. They contribute to the significant amount of power consumed by the system.  
  The first, and perhaps most direct, approach of our low power consumption design targets the sensor itself. The following section describes the three simple techniques that were employed in BlueBox that enabled low power sensing.
  \subsection{Power Management of Sensor sub-system}
    Most of the sensors designed for low power consumption have one or more lower power states such as a shutdown mode or an extremely low-power operating mode. In many instances, this types of sensor's operation is directly controlled by  the firmware designer in the end application. It is also important to note that there is always a cost associated with the low power modes. The cost could be reduced performance, increased latency, delayed boot-up etc. And transition of modes consumes power too. So it is the application semantics that decides the best modes of operation and how often transition needs to be triggered. 
@@ -202,9 +202,9 @@ V\textsubscript{DD} in order to save power. Even though delay is increasing, the
  From \ref{mpu9250_def} it can be noticed that the Accelerometer sensor(MPU9250) takes 30ms to wakeup from sleep and generate a valid accelerometer  value. BlueBox cannot afford to spend this time inside the ISR. So it is a good idea to keep the MPU9250 under low-power accelerometer mode, which consumes 19.8 $\mu$A providing the required response time.
  
  \subsection{Smart Sensing}
- Smart sensing is a method for achieving low power uses integrated 'smart' digital logic in the sensor. "Smart Sensing" is the added digital capability which can be used to enable the sensor to perform its own internal power management or help reduce the power consumption of the system. This approach has been used in accelerometer etc xxxx 
+ Smart sensing is a method for achieving low power that uses integrated 'smart' digital logic in the sensor. "Smart Sensing" is the added digital capability which can be used to enable the sensor to perform its own internal power management or help reduce the power consumption of the system. This approach has been used in BlueBox through the smart capabilities of accelerometer.
  
- Unlike the previous case, the sensor itself draws the power dictated by its design. The sensor's embedded logic detects events and notifies the DSP over interrupt. Unlike the previous low-power method that has no power consumption at its lowest level, this one has a baseline power consumption, so it can automatically power itself on. With a higher frequency of use, a device with more internal intelligence eventually becomes more efficient. 
+The sensor's embedded logic detects events and notifies the DSP over interrupt. Unlike the previous low-power method that has no power consumption at its lowest level, this one has a baseline power consumption, so it can automatically power itself on. With a higher frequency of use, a device with more internal intelligence eventually becomes more efficient. 
  
  An example of such technique in the BlueBox, for reducing power consumption is the use of
  accelerometer’s smart first in, first out (FIFO) buffer. An 8-bit or 12-bit configurable 32-sample 
@@ -220,7 +220,13 @@ V\textsubscript{DD} in order to save power. Even though delay is increasing, the
  \subsection{Computational offloading}
  In this third approach for low power sensing, the DSP utilizes the local computing capability of the sensor. Termed "local compute capability", this system level methodology can offload the computation from system application DSP . For example, a DSP that uses 100 to 1000 times as much power, a local sensor with the compute capability can perform the required computations and allow the DSP to go into lower power modes delivers a significant power savings at the system level, resulting in savings.  
  
- This design methodology is used in BlueBox to reduce the power consumption of audio data acquisition through the use of local compute capability of the Audio Codec. Audio signal captured through the electret microphones contains some noise with it. And is required to filter the signal to improve the audio quality and attenuate high frequency noises. The process of digital filtering at the DSP could be a good solution as the filter can be designed specific for the application and the signal of interest. But it consumes lots of computational bandwidth and power which is not very desirable for the BlueBox application. So BlueBox uses the signal processing support extended by the audio codec AIC3204. The codec has a fixed number of filters with configurable coefficients. Offloading the digital filtering computation to the codec saves a significant amount of power.
+  \begin{figure}[h]
+ 	\centering
+ 	\includegraphics[scale = 0.5 ]{AIC_processingBlock.JPG}
+ 	\caption{Signal Processing blocks of Audio Codec\label{AIC_processingBlock}}
+ \end{figure}
+ 
+ This design methodology is used in BlueBox to reduce the power consumption of audio data acquisition through the use of local compute capability of the Audio Codec. Audio signal captured through the electret microphones contains some noise with it. And is required to filter the signal to improve the audio quality and attenuate high frequency noises. The process of digital filtering at the DSP could be a good solution as the filter can be designed specific for the application and the signal of interest. But it consumes lots of computational bandwidth and power which is not very desirable for the BlueBox application. So BlueBox uses the signal processing support extended by the audio codec AIC3204 as shown in figure \ref{AIC_processingBlock}. The codec has a fixed number of filters with configurable coefficients. Offloading the digital filtering computation to the codec saves a significant amount of computational bandwidth and power.
  
 \section{Power Management of DSP subsystem }
 
