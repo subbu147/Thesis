@@ -7,15 +7,41 @@ Steady advances in wireless networking, medical sensors, and interoperability so
 
 \section{Related Work}
 
-\section{Objective}
-When emergency occurs, the chaotic setting of limited resources, unreliable communication infrastructure, and inadequate information produces an organizational nightmare for care provider teams and prevents them from providing quality trauma care [1][2]. 
-During these health emergencies, when time is of the essence, there is little tolerance for system errors and poor usability designs. 
-Collaboration with LABIOMED prompted us to develop BlueBox (like Black Box device in a Aeroplanes) a low-cost, low-power wearable device that automates monitoring patient’s vitals throughout each step of the response process. It provides a new patient care paradigm to the emergency response arena through automation of the patient monitoring and tracking process. The idea is to design an easy to use wearable hardware and integrated software solutions that records important  patient’s vitals and paramedic's logs in the database , which allows the doctors and physicians at the hospital to review the patient information . Access to this information could allow them to provide accurate care.
+\subsection{Medical Information Tag}
+Tia Gao et al., developed MiTag (Medical information tag), a cost effective 
+wireless sensor platform that automatically track patients 
+throughout each step of the emergency response process, from disaster 
+scenes, to ambulances, to hospitals \cite{miTag}.
+The miTags can increase 
+the patient care capacity of responders in the field. The miTag  supports sensor add-ons – GPS, pulse oximetery, blood pressure and ECG. 
+The miTag system is out-of-the-box operational and includes the following key technologies: 1) cost-effective sensor hardware, 2) 
+self-organizing wireless network and 3) scalable server software 
+that analyzes sensor data and delivers real-time updates to 
+handheld devices and web portals. The drawback of this setup is its bulky size and uncomfortable usability. The miTag system has wireless blood pressure cuff with an additional 9V battery to power the cuff which makes it bulky. The miTag uses wireless sensors (ECG, GPS, Pulse oximeter), each of which has its own radio and battery, which makes each individual sensor bulky. This distributed nature of the system adds lot more work for paramedics to manage each one of them individually , which sometimes could be a pain. 
+\subsection{Advanced Health
+	and Disaster Aid Network (AID-N)}
+The Advanced Health and Disaster Aid Network (AID-N), developed by Tia Gao, Dan Greenspan et al., \cite{AID-N} at The Johns Hopkins University Applied Physics Laboratory, explores and showcases how these advances in technology can be employed to assist victims and responders in times of emergency. AID-N uses open-standard software and best-of-breed hardware to deliver a scalable, open, and reliable infrastructure that paves the way for the development of new capabilities and the extension of existing technologies. 
+Wearable sensors designed by the CodeBlue project at Harvard University is used in AID-N. The AID-N system consists if a pulse oximeter sensor on patient's fingure that measures heart rate and blood oxygenation (SPO\textsubscript{2}) level of the patient.It uses Wearable sensors to sense and record vital signs into an electronic patient record database. The vitals are transmitted to a local base staion(a Tablet) that displays the vital in real time. Compared to MiTag this system requires very little setup as it has a single wearable setup. AID-N is integrated with pre-hospital patient care framework MICHAELS.Due to the chaotic nature of emergencies, AID-N system
+faces the challenge of operating in situations that challenge instrumentation designed for use in
+the controlled environment of a clinical situation. 
 
-BlueBox facilitates collaborative and time-critical patient care in the emergency response community. BlueBox  platform support recording of variety of data including Electrocardiogram(ECG), body temperature, Chest movements (using Inertial Measurement Unit sensors) , Environment temperature sensors, paramedic’s voice log about patient condition . BlueBox automates the tasks of data recording and  greatly relieve the workload for each responder, which could improve the quality and quantity of patient care, and more efficiently deliver patients to the hospital with a clear picture of patients condition from the time emergency. Our system accomplishes this through the following technologies:
+
+\section{Objective}
+The miTag and the AID-N systems presented above has challenges when it comes to the usability under a chaotic environment of emergency.Time is a critical resource during emergency and usability issue consumes this critical resource. Also the basic idea of building such devices is to help paramedics provide emergency care while maintaining record of the patients condition. But the above mentioned system does not provide space for paramedics to log about the patients response to their emergency treatment. BlueBox , the proposed system, addresses these issue.Collaborating with LABIOMED we developed BlueBox (like Black Box device in a Aeroplanes) a low-cost, low-power wearable device that automates monitoring patient’s vitals and paramedic's log throughout each step of the response process.  The system provides a new paradigm to emergency response treatment by automating the patient monitoring process. The idea is to design an easy to use wearable hardware and integrate software solutions that records important  patient’s vitals and paramedic's logs in the database , which allows the doctors and physicians at the hospital to review . Access to this information could allow them to provide better care.
+
+BlueBox  platform support recording of variety of data including Electrocardiogram(ECG), body temperature, Chest movements (using Inertial Measurement Unit sensors) , Environment temperature sensors, paramedic’s voice log about patient condition . BlueBox relieves the workload for paramedics by automating the task of data recording that helps improve quality of patient care and deliver patients to the hospital with a clear picture of patients condition from the time emergency. Our system accomplishes this through the following technologies:
+
+
 -	Wearable sensors to sense and record vital signs into an electronic storage. This dramatically improves the current time-consuming process of manually recording vital signs onto paper pre-hospital care reports and then converting the reports into electronic form for the hospitals.
+
+
 -	Ability to record the paramedic’s comments about the condition of the patient and synchronize with the vitals.
 
-Collaboration with LA BioMed , physicians , paramedics and doctors helped us understand the user needs.
-
 //TODO add references to bibiliography
+
+\section{Thesis Goals}
+The goal of the thesis is build low power firmware for BlueBox which is designed to be wearable,battery operated easy-to-use device . Wearable medical devices have strict size and weight constraints while having a functional and behavioural specifications that demands the system to have high performance and function for hours. Battery capacity is directly proportional to its size. Smaller the size and weight , lower the capacity of the battery\cite{}. Battery capacity is a huge bottleneck for these systems. So these systems requires an extensive power management strategies to be deployed in hardware and software level. This is a hardware-software cosynthesis problem. 
+This thesis focuses on power management techniques to be used in the firmware level. Our approach of solving this problem through a multidimensional approach \ref{} has proved effective while maintaining the system requirements and also proves more effective.
+
+ 
+\section{Thesis Organization}
