@@ -1,5 +1,7 @@
 \chapter{Firmware Architecture}
 
+Chapter 4 explains the firmware architecture of the BlueBox system and describes its core functionalities. This chapter also talks about procedure for importing and visualizing the acquired data.
+
 \section{Overview}
 The firmware for the system is implemented on Texas Instrument's TMS320C5515 DSP in C and assembly using Code Composer Studio IDE. TI provides DSP/BIOS (in later versions called SYS/BIOS)  a real time operating system for their DSPs. These operating systems provides a wide range of system services to an embedded application such as preemptive multitasking, memory management and real-time analysis. The RTOS is feature rich and helps in quicker development and testing of firmware. But the very important of drawback of using the RTOS is the trade off of performance and controllability of the DSP for quicker development. For a resource and power constrained application, it is required to squeeze out the performance from the system which requires the firmware to have complete control over the underlying hardware. Thus firmware for the system is implemented on baremetal using  C and using the chip support library (CSL) for C5515 provided by TI. 
 
@@ -79,3 +81,5 @@ MATLAB plots the data and visualizes it in such a way that the user can relate a
 	\includegraphics[scale = 0.5 ]{play_dataflow.JPG}
 	\caption{Flow of data in import record\label{play_dataflow}}
 \end{figure}
+
+\\TODO MATLAB GUI screenshot
