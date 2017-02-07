@@ -55,7 +55,7 @@ The firmware is designed for concurrent data acquisition using dedicated hardwar
  The following would provide insight and explain in detail the above mentioned mechanism with the context of audio signal acquisition .There are primarily two audio channels that are sampled at a very high frequency of 12 KHz. The audio signal acquisition and storage is the most intensive task of the entire system and also very power hungry task. Involving DSP to do the complete task would completely utilize the DSP's computational bandwidth allowing no space for DSP to do other useful work and also the overhead of doing this operation through DSP is very high.  TMS320C5515 includes 4 DMA controllers with four DMA channels each. It can move data among internal memory, external memory, and peripherals without intervention from the DSP and in the background of DSP operation. So DMA data transfer is used in audio signal collection and storing.  The following diagram shows the DMA in the DSP 
  \begin{figure}[h]
  	\centering
- 	\includegraphics[scale = 0.5 ]{DMA_overview.PNG}
+ 	\includegraphics[scale = 0.5 ]{DMA_overview.JPG}
  	\caption{Conceptual Block Diagram of DMA controller\label{DMA_Architecture}}
  \end{figure} 
  The DMA is configured to collect the audio signal from the I2S peripheral and move it to SD card.The I2S receive event triggers the DMA to collect the audio signal. When the DMA fills up the allocated buffer it interrupts the CPU and the DSP initiates the SD card write using  other DMA channels and DMA takes care of the further action. The system continues acquiring audio signals even while writing data into the SD card . This is done through using DMA in ping-pong mode. The following diagram shows the ping pong operation mode.
@@ -82,4 +82,5 @@ MATLAB plots the data and visualizes it in such a way that the user can relate a
 	\caption{Flow of data in import record\label{play_dataflow}}
 \end{figure}
 
-\\TODO MATLAB GUI screenshot
+************
+TODO MATLAB GUI screenshot
