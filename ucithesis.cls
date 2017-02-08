@@ -58,7 +58,7 @@
 		\vspace{0.4in}
 		\Thesistitle \\
 		\vspace{0.15in}
-		DISSERTATION \\
+		THESIS \\
 		\vspace{0.4in}
 		submitted in partial satisfaction of the requirements \\
 		for the degree of \\
@@ -148,25 +148,15 @@
 	\end{center}
 	\parskip 12pt
 	\parindent 0pt
+	\doublespacing
 	\Acknowledgments
-	\clearpage
-}
-
-\newcommand{\curriculumvitaepage}
-{
-	\begin{center}
-		\textbf{\Large CURRICULUM VITAE} \\
-		\vspace{0.4in}
-		\textbf{\large{\Authorname}}
-	\end{center}
-	\Curriculumvitae
 	\clearpage
 }
 
 \newcommand{\abstractpage}
 {
 	\begin{center}
-		{\bf\Large ABSTRACT OF THE DISSERTATION} \\
+		{\bf\Large ABSTRACT OF THE THESIS} \\
 		\vspace{0.2in}
 		\Thesistitle \\
 		\vspace{0.2in}
@@ -238,11 +228,7 @@
 	\acknowledgmentspage
 	\clearpage
 	\phantomsection
-	\addcontentsline{toc}{chapter}{CURRICULUM VITAE}
-	\curriculumvitaepage
-	\clearpage
-	\phantomsection
-	\addcontentsline{toc}{chapter}{ABSTRACT OF THE DISSERTATION}
+	\addcontentsline{toc}{chapter}{ABSTRACT OF THE THESIS}
 	\abstractpage
 	\clearpage
 	\setcounter{page}{1}
