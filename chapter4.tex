@@ -56,13 +56,13 @@ The firmware is designed for concurrent data acquisition using dedicated hardwar
  \begin{figure}[h]
  	\centering
  	\includegraphics[scale = 0.5 ]{DMA_overview.JPG}
- 	\caption{Conceptual Block Diagram of DMA controller\label{DMA_Architecture}}
+ 	\caption{Conceptual Block Diagram of DMA controller. Source:\cite{dma}\label{DMA_Architecture}}
  \end{figure} 
  The DMA is configured to collect the audio signal from the I2S peripheral and move it to SD card.The I2S receive event triggers the DMA to collect the audio signal. When the DMA fills up the allocated buffer it interrupts the CPU and the DSP initiates the SD card write using  other DMA channels and DMA takes care of the further action. The system continues acquiring audio signals even while writing data into the SD card . This is done through using DMA in ping-pong mode. The following diagram shows the ping pong operation mode.
   \begin{figure}[h]
  	\centering
  	\includegraphics[scale = 0.5 ]{ping_pong.JPG}
- 	\caption{Ping-Pong Mode for DMA Data Transfer\label{ping_pong}}
+ 	\caption{Ping-Pong Mode for DMA Data Transfer. Source:\cite{dma}\label{ping_pong}}
  \end{figure}
  When the ping buffer data is being copied to the SD card , the DMA acquires the incoming data and fills it in the pong buffer. So DMA used in ping-pong mode enables the system to collect the audio signals and store the previously cached signal simultaneously. 
  

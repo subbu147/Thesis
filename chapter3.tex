@@ -10,13 +10,20 @@ The figure \ref{BlueBox_Architecture} shows the overall system architecture for 
 	\includegraphics[scale = 0.75 ]{BlueBox_Architecture.JPG}
 	\caption{BlueBox Hardware System Architecture\label{BlueBox_Architecture}}
 \end{figure} 
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale = 0.08]{BlueBox_Hardware.jpg}
+	\caption{BlueBox Prototype Hardware revision 1.0 \label{BlueBox_Hardware}}
+\end{figure} 
 \section{Digital Signal Processor}
 TMS320C5515 is a fixed-point DSP is based on the TMS320C55x™ DSP generation CPU processor core. The C55x™ DSP architecture achieves high performance and low power through increased parallelism and total focus on power savings. Figure \ref{C5515 Architecture} shows the DSP architecture
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale = 0.75 ]{C5515_arch.JPG}
-	\caption{DSP Architecture\label{C5515 Architecture}}
+	\caption{DSP Architecture. Source:\cite{tms320c5515}\label{C5515 Architecture}}
 \end{figure} 
 \subsection{Clock frequency}The DSP has a low power software programmable Phase Locked Loop(PLL) clock generator that  supports 60-,75-,100-,120-MHz clock rate.  
 \subsection{On-Chip Memory}The DSP has 320K Bytes Zero-Wait state On-Chip RAM and 128K of On-Chip ROM
@@ -36,7 +43,7 @@ TLV320AIC3204 is an analog interface chip (AIC) of TI company which is a flexibl
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale = 0.5 ]{AIC3204.JPG}
-	\caption{AIC3204 Block Diagram\label{aic3204}}
+	\caption{AIC3204 Block Diagram. Source \cite{audiocodec}\label{aic3204}}
 \end{figure}
 
 Figure \ref{aic3204} displays the audio codec's architecture.It has capabilities of recording stereo audio signals .It has two channels that it can record. One channel is used for respiration recording and the other for paramedic's log recording.
@@ -54,7 +61,7 @@ ADS1292R is a two channel, simultaneous sampling, 24-bit, delta-sigma (ΔΣ) ana
  \begin{figure}[h]
  	\centering
  	\includegraphics[scale = 0.5 ]{ADS1292R.JPG}
- 	\caption{ADS1292R Functional Block Diagram\label{ADS1292R}}
+ 	\caption{ADS1292R Functional Block Diagram. Source \cite{ads}\label{ADS1292R}}
  \end{figure}
  
 \section{MPU9250 : Accelerometer sensor}\label{mpu9250_def}
@@ -62,7 +69,7 @@ MPU-9250 is a 9-axis MotionTracking device that combines a 3-axis gyroscope, 3-a
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale = 0.5 ]{MPU9250.JPG}
-	\caption{MPU9250 Architecture\label{mpu9250}}
+	\caption{MPU9250 Architecture. Source \cite{mpu}\label{mpu9250}}
 \end{figure}
 
 The MPU-9250 contains a 512-byte FIFO register that is accessible via the Serial Interface. The FIFO configuration register determines which data is written into the FIFO. Possible choices include gyro data, accelerometer data, temperature readings, auxiliary sensor readings, and FSYNC input. A FIFO counter keeps track of how many bytes of valid data are contained in the FIFO. The FIFO register supports burst reads. The interrupt function may be used to determine when new data is available.
@@ -74,12 +81,13 @@ The MPU9250 has multiple user-configurable power modes. The mode which we are in
 STS21 is a low power, fully self calibrated digital temperature sensor well suited for applications with high demand on temperature accuracy. With dedicated I2C bus it directly provides the temperature output. The sensor comes in a package sized 3 x 3mm footprint and 1.1 mm height. The sensor is powered up to the chosen supply voltage VDD (between 2.1V and 3.6V). After power-up, the sensor needs at most 15ms, while SCL is high, for reaching idle state, i.e. to be ready accepting commands from the master (MCU). Current consumption during start up is 350μA maximum. Whenever the sensor is powered up, but not performing a measurement or communicating, it is automatically in sleep mode (idle state). STS21 measures temperature with different resolution ranging from 14 bits to 11 bits, where the 14 bit resolution takes 85ms for conversion whereas a 11 bit resolution takes somewhere between 9 and 11 ms.  
 
 \subsection{MA100: Body temperature sensor} 
-MA100 is a Biomedical Chip Thermistor assemblies that are designed for use in applications involving both intermittent and continuous patient temperature monitoring. Although low in cost and small in size, these are highly stable, precision thermochips provide reliability, tight interchangeable tolerances, geometries, and fast response time that are often required. 
-\section{Memory}
+MA100 is a Biomedical Chip Thermistor assemblies that are designed for use in applications involving both intermittent and continuous patient temperature monitoring. Although low in cost and small in size, these are highly stable, precision thermochips provide reliability, tight interchangeable tolerances, geometries, and fast response time that are often required.
+ 
+\section{Memory}\label{memory}
 The BlueBox system has on-chip memory and the persistent micro SD card storage. Because a micro SD card is power intensive and takes hundreds of milliseconds to write to, the on-chip memory is used as buffer. Once there is enough buffer the data is written to the micro SD card and can be accessed by a computer. All the heavy lifting data transfer are done with the help of Direct Memory access peripheral interconnect to take off load from DSP. SD card is interfaced to DSP using MMC/SD interface. The SD card used for the application is a high capacity card that can support a maximum clock frequency of 50 MHz. These high capacity cards are not byte addressable. These high capacity cards are organized in 512 Byte sector or block and they are block addressable. In this thesis, the testing was done on kingston 8 GB micro SDHC card. 
 
 \section{Battery and Power management circuitry}
- A GMB 302547 Lithium ion polymer rechargable battery is used to power the system. It has a capacity of 300 mAH at 3.7 V. The following picture shows the battery. It is 4 cm long , 2cm wide and 0.2 mm thick. And it weighs  8 grams. The battery is place on top of the central board housing. The central board has a battery charging circuitry that can charge the battery completely in 2 hours. The power management circuitry provides a powertrain that powers up the different power domain in the DSP  as shown in the system overview diagram above.             
+ A GMB 302547 Lithium ion polymer rechargable battery is used to power the system. It has a capacity of 300 mAH at 3.7 V. The following picture shows the battery. It is 4 cm long , 2cm wide and 0.2 mm thick. And it weighs  8 grams. The battery is place on top of the central board housing. The central board has a battery charging circuitry that can charge the battery completely in 2 hours. The power management circuitry provides a powertrain that powers up the different power domain in the DSP  as shown figure \ref{BlueBox_Architecture}.             
 %%% Local Variables: ***
 %%% mode: latex ***
 %%% TeX-master: "thesis.tex" ***

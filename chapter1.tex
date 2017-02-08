@@ -8,10 +8,15 @@ Steady advances in wireless networking, medical sensors, and interoperability so
 \section{Related Work}
 
 \subsection{Medical Information Tag}
-Tia Gao et al., developed MiTag (Medical information tag), a cost effective 
+Tia Gao et al., developed MiTag (Medical information tag) \ref{fig:miTag}, a cost effective 
 wireless sensor platform that automatically track patients 
 throughout each step of the emergency response process, from disaster 
 scenes, to ambulances, to hospitals \cite{miTag}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale = 0.6 ]{miTag.JPG}
+	\caption{Medical Information Tag. Source \cite{miTag}\label{fig:miTag}}
+\end{figure}
 The miTags can increase 
 the patient care capacity of responders in the field. The miTag  supports sensor add-ons – GPS, pulse oximetery, blood pressure and ECG. 
 The miTag system is out-of-the-box operational and includes the following key technologies: 1) cost-effective sensor hardware, 2) 
@@ -31,11 +36,13 @@ The miTag and the AID-N systems presented above has challenges when it comes to 
 
 BlueBox  platform support recording of variety of data including Electrocardiogram(ECG), body temperature, Chest movements (using Inertial Measurement Unit sensors) , Environment temperature sensors, paramedic’s voice log about patient condition . BlueBox relieves the workload for paramedics by automating the task of data recording that helps improve quality of patient care and deliver patients to the hospital with a clear picture of patients condition from the time emergency. Our system accomplishes this through the following technologies:
 
+\begin{itemize}
+	\item Wearable sensors to sense and record vital signs into an electronic storage. This dramatically improves the current time-consuming process of manually recording vital signs onto paper pre-hospital care reports and then converting the reports into electronic form for the hospitals.
 
--	Wearable sensors to sense and record vital signs into an electronic storage. This dramatically improves the current time-consuming process of manually recording vital signs onto paper pre-hospital care reports and then converting the reports into electronic form for the hospitals.
 
-
--	Ability to record the paramedic’s comments about the condition of the patient and synchronize with the vitals.
+	\item Ability to record the paramedic’s comments about the condition of the patient and synchronize with the vitals.
+	
+\end{itemize}
 
 \section{Thesis Goals}
 The goal of the thesis is build low power firmware for BlueBox which is designed to be wearable,battery operated easy-to-use device . Wearable medical devices have strict size and weight constraints while having a functional and behavioural specifications that demands the system to have high performance and function for hours. Battery capacity is directly proportional to its size. Smaller the size and weight , lower the capacity of the battery\cite{}. Battery capacity is a huge bottleneck for these systems. So these systems requires an extensive power management strategies to be deployed in hardware and software level. This is a hardware-software cosynthesis problem.
@@ -70,7 +77,7 @@ The following chapters of this thesis report are organized as follows:
 	
 	\item Chapter 6 presents system setup, testing and verification of the BlueBox system. 
 	
-	\item 7
+	\item
 	Chapter 7 completes this report by giving the final conclusion and ideas for future enhancement of the device.
 	
 \end{itemize}
