@@ -316,12 +316,49 @@ Index page description:
 The firmware filesystem driver keeps track of the next available free block and decides to which block does the page of data go into. All the pages are written to the SD card sequentially. After the page has been successfully written by the DMA, the block address pointer is updated to point to the next free block.  24 pages of audio sample is written per second and 4 pages of ECG and other aggregated data is written per second.  
 Also the filesystem keeps track of which block of the storage has which type of page through page identifiers and the pointers in the index page. The index page is also stored in an in memory buffer and when it fills up it is written into the SD card. So that while reading back the data from the SD card we could organize the blocks and reconstruct the data stream.  
 
-**************
-refer a paper to properly write the advantages 
+This simple custom filesystem  helped in reducing the overhead of writing data to SD card , which in general is very high with a standard file system that adds up bunch of meta data. The following graph \ref{fig:fs_time} shows the time taken to write the data to sd card and compares the two file system. The x axis marks the amount of data( includes only the meaningful sensor data)  and the y axis marks time in millisecond.
+
+\begin{tikzpicture}
+\begin{axis}[
+title={SDHC card data write time},
+xmode=log,
+ymode=log,
+height =100mm,
+width = 100mm,
+xlabel={ Data size [KB]},
+ylabel={Time [ms] },
+xmin=0, xmax=1000,
+ymin=0, ymax=20000,
+xtick={0.1,1,10,100,1000},
+ytick={0.1,1,10,1000,10000,100000},
+legend pos=north west,
+ymajorgrids=true,
+grid style=dashed,
+]
+
+\addplot[
+color=blue,
+mark=square,
+]
+coordinates {
+	(0.5,0.21)(1,0.52)(10,3.02)(100,30.28)(1000,333.09)
+
+};
+\addlegendentry{Custom FileSystem}
+
+\addplot[
+color=black,
+mark=*,
+]
+coordinates {
+	(0.5,20.644)(1,77.15)(10,133.70)(100,1517.986)(1000,16552.70)
+	
+};
+\addlegendentry{FAT FileSystem}
+
+\end{axis}
+\end{tikzpicture}\label{fig:fs_time}
+From the figure \ref{fig:fs_time} it is evident that for the same amount of actual data the custom filesystem takes, on an average, 50x less time to write than the FAT filesystem. The custom filesystem essentially spends less energy and consumes less power to save the data by reducing the active utilization time by 50x. 
 
 
-This is a very simple custom filesystem that helped reducing  
-The amount of data to be written , which is very high with a standard file system that adds up bunch of meta data 
-The time taken to write data , a standard filesystem involves going through a huge stack of tables to find the next available blocks  
-
-power consumption by x\%  compared to the standard file system with respect to power spent of storing data. 
+From the experiment with SDHC card,running at 20MHz clock at 3.3 V,  the write/read operation consumes 35mA (considering only DSP and SD card active) and in standby it consumes 22mA. BlueBox system requries to write 50 KB of data every second. With FAT file system, the system consumes average current of 30.5mA when writing 50KB of data in one second whereas the custom file system's average current consumption is 17.27 mA. Thus The designed file system reduces the system power consumption by 50\% within the application semantics of BlueBox. 

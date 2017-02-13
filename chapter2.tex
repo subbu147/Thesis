@@ -97,9 +97,8 @@ beat and is therefore of particular value for assessing an individual's  health.
 		\hline
 		$Specification$ & $Minimum$ & $Target$ \\
 		\hline
-		Usability duration  &  2 Hours & 4 hours \\
+		Usability duration  &  3 Hours & 4 hours \\
 		Memory & 1 GB & 2 GB \\
-		Power Dissipation & 9.7 mW & 9.7 mW \\
 		\hline
 	\end{tabular}
 	\caption{BlueBox Behavioural Specification.}
@@ -141,14 +140,14 @@ limited amount of resources provided by the system, an engineer has to think car
 \hspace{10mm}As mentioned in the previous section BlueBox has an size and weight constraint which is considered during the design to optimize the resources of the system to fulfill the constraints. It is required to run for a minimum of four hours on battery and is optimized to have the minimum required resources to acquire, process and store the large number of high frequency data sets, mentioned in the previous section, with the required performance.  
 Battery capacity is directly proportional to its weight as lithium ion battery tend to have a fixed energy density .The battery consideration is primarily based on its size, weight and heat dissipation. So here the battery capacity is traded off to meet the size and medical guidelines.  
 
-The table \ref{table:power_rating} lists the major components and their power consumption. The best battery that fulfill the size constraint has capacity of 300 mAh @ 3.7 volts. Which is equivalent to 1110 mWh of energy. The power consumption of system sums up to 895 mW approximately. At this rate the system will deplete the battery in 75 minutes. 
+The table \ref{table:power_rating} lists the major components and their power consumption. The best battery that fulfill the size constraint has capacity of 300 mAh @ 3.7 volts. Which is equivalent to 1110 mWh of energy. The power consumption of system sums up to 635 mW approximately. At this rate the system will deplete the battery in approximately 100 minutes. 
 \begin{table}[h]
 	\centering
 	\begin{tabular}{|r|r|}
 		\hline
 		Component & Typical power consumption\\
 		\hline
-		TMS320C5515 DSP CPU &  360 mW \\
+		TMS320C5515 DSP CPU &  100 mW \\
 		SDHC card, 50 MHz @ 3.3 V   &  495 mW \\
 		AIC3204 Audio Codec  &  21.9 mW \\	
 		ADS1292R ECG front end & 1.4 mW \\

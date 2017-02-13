@@ -76,14 +76,21 @@ The firmware is designed for concurrent data acquisition using dedicated hardwar
  	\caption{Flow of data in during record\label{record_datalow}}
  \end{figure}
 
-\subsection{Importing the Data}
-Once the data has been saved to the micro SD card, it can be read directly by a computer. A custom file system is used to store the data, so it can not be directly recognized on a computer. A filesystem driver for the custom filesystem is developed in python, which could parse the data in the SD card and create files of each of the signals. These files are read by a MATLAB script that does post processing and generates data vectors corresponding to each signal. For example in case of body temperature sensor, the data in the file is the raw ADC values, the calibration details of the body temperature is embedded into MATLAB code , so it does convert raw ADC temperature  data into a meaningful value through the calibration information.  
-MATLAB plots the data and visualizes it in such a way that the user can relate and see all the signals together and it allows user to jump into the time of interest. 
  \begin{figure}[h]
 	\centering
 	\includegraphics[scale = 0.5 ]{play_dataflow.JPG}
 	\caption{Flow of data during import \label{play_dataflow}}
 \end{figure}
+\subsection{Importing the Data}
+Once the data has been saved to the micro SD card, it can be read directly by a computer. A custom file system is used to store the data, so it can not be directly recognized on a computer. A filesystem driver for the custom filesystem is developed in python, which could parse the data in the SD card and create files of each of the signals. These files are read by a MATLAB script that does post processing and generates data vectors corresponding to each signal. For example in case of body temperature sensor, the data in the file is the raw ADC values, the calibration details of the body temperature is embedded into MATLAB code , so it does convert raw ADC temperature  data into a meaningful value through the calibration information.  
 
-************
-TODO MATLAB GUI screenshot
+
+
+ \begin{figure}[h]
+	\centering  
+	\includegraphics[scale = 0.4 ]{MATLAB_GUI.png}
+	\caption{MATLAB Graphic User Interface \label{fig:matlab_gui}}
+\end{figure}
+
+MATLAB plots the data and visualizes it as shown in the figure \ref{fig:matlab_gui} so that the doctors and physicians can relate and see all the signals together. The tool also allows them to jump into the time of interest and tune the time window shown by the tool. 
+
