@@ -2,7 +2,7 @@
 \hspace{10mm}This chapter explains the architecture of the system and the important features of all the components and peripherals used in the system and their significance. This section also talks about the sensors that are part of the BlueBox system. This chapter gives a foundational understanding of the architecture which helps in designing and architecting the firmware.
 
 \section{System overview}
-\hspace{10mm} The BlueBox prototype consists of a central board, processor, storage, microphone, accelerometer and  the environment temperature sensor. The additional electrodes attach to the central board via RS232 interface. The contact microphone attached through a standard 2.5mm audio jack. The body temperature sensor is attached through solder pads in the board. 
+\hspace{10mm} The BlueBox prototype consists of a central board, processor, storage element, microphone, accelerometer and  the environment temperature sensor. The additional electrodes attach to the central board via RS232 interface. The contact microphone attached through a standard 2.5mm audio jack. The body temperature sensor is attached through solder pads in the board. 
 The figure \ref{BlueBox_Architecture} shows the overall system architecture for bluebox.
 \begin{figure}[h]
 	\centering
@@ -22,7 +22,7 @@ TMS320C5515 is a fixed-point DSP based on the TMS320C55x™ CPU processor core. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale = 0.75 ]{C5515_arch.JPG}
-	\caption{DSP Architecture. Source:\cite{tms320c5515}\label{C5515 Architecture}}
+	\caption{DSP Architecture. \cite{tms320c5515}\label{C5515 Architecture}}
 \end{figure} 
 \subsection{Clock frequency}The DSP has a low power software programmable Phase Locked Loop(PLL) clock generator that  supports 60-,75-,100-,120-MHz clock rate.  
 \subsection{On-Chip Memory}The DSP has 320K Bytes Zero-Wait state On-Chip RAM and 128K of On-Chip ROM. 
@@ -42,7 +42,7 @@ TLV320AIC3204 is an analog interface chip (AIC) of Texas Instruments which is a 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale = 0.5 ]{AIC3204.JPG}
-	\caption{AIC3204 Block Diagram. Source \cite{audiocodec}\label{aic3204}}
+	\caption{AIC3204 Block Diagram. \cite{audiocodec}\label{aic3204}}
 \end{figure}
 
 Figure \ref{aic3204} displays the audio codec's architecture. It has capabilities of recording stereo audio signals . It has two channels that it can record. One channel is used for respiration recording and the other for paramedic's log recording.
@@ -60,7 +60,7 @@ ADS1292R is a two channel, simultaneous sampling, 24-bit, delta-sigma ($\Delta$$
  \begin{figure}[h]
  	\centering
  	\includegraphics[scale = 0.5 ]{ADS1292R.JPG}
- 	\caption{ADS1292R Functional Block Diagram. Source \cite{ads}\label{ADS1292R}}
+ 	\caption{ADS1292R Functional Block Diagram. \cite{ads}\label{ADS1292R}}
  \end{figure}
  
 \section{MPU9250 : Accelerometer sensor}\label{mpu9250_def}
@@ -68,7 +68,7 @@ MPU-9250 is a 9-axis MotionTracking device that combines a 3-axis gyroscope, 3-a
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale = 0.5 ]{MPU9250.JPG}
-	\caption{MPU9250 Architecture. Source \cite{mpu}\label{mpu9250}}
+	\caption{MPU9250 Architecture. \cite{mpu}\label{mpu9250}}
 \end{figure}
 
 The MPU-9250 contains a 512-byte FIFO register that is accessible via the Serial Interface. The FIFO configuration register determines which data is written into the FIFO. Possible choices include gyro data, accelerometer data, temperature readings, auxiliary sensor readings, and FSYNC input. A FIFO counter keeps track of how many bytes of valid data are contained in the FIFO. The FIFO register supports burst reads. The interrupt function may be used to determine when new data is available.

@@ -99,6 +99,7 @@ beat and is therefore of particular value for assessing an individual's  health.
 		\hline
 		Usability duration  &  3 Hours & 4 hours \\
 		Memory & 1 GB & 2 GB \\
+		Battery & 300 mAH & 300 mAH \\
 		\hline
 	\end{tabular}
 	\caption{BlueBox Behavioural Specification.}
@@ -111,10 +112,10 @@ The signal requirements and the use case  provides the system level electrical r
 All the data needs to be stored on board, so a high density memory must be used. A micro SD card is well suited to this application. However, writing data to a micro SD card is a power hungry operation and latency of write operations are in hundreds of millisecond. Most low power Digital signal processors have low on-chip memory, so the system used for the application should have enough memory for buffering data. For a test duration of 4 hours, system should have a battery capacity of several hundreds of milliamp hours is required. A 300 mAH battery, for example, could support an average current of 75 mA for upto 4 hours at a supply voltage of 3.7V. 
 
 \subsection{Firmware Requirement }
-\hspace{10mm}The firmware requirements for BlueBox  is that it must be able to sample the signals with the required frequency as mentioned in the previous sections and store them. And it must be able function for 4 hours. Additionally, the bare metal firmware must be able to manage the resource to control the system and to keep the power consumption as low as possible. A low power Digital Signal Processor is well suited for this task. The hardware system has to be designed in such a way that DSP  expose enough control to the firmware, in order to perform extensive resource and power management. The low-power DSP must have enough communication resource to communicate with the sensors(Accelerometer, sd card, audio codec,etc) , built-in capability for power management(example: configurable power domain,clock gating, power gating, dynamic voltage and frequency scaling), enough debugging opportunities and sufficient on-chip memory for buffering data. 
+\hspace{10mm}The firmware requirements for BlueBox  is that it must be able to sample the signals with the required frequency as mentioned in the previous sections and store them. And it must be able to function for 4 hours. Additionally, the bare metal firmware must be able to manage the resource to control the system and to keep the power consumption as low as possible. A low power Digital Signal Processor is well suited for this task. The hardware system has to be designed in such a way that DSP  expose enough control to the firmware, in order to perform extensive resource and power management. The low-power DSP must have enough communication resource to communicate with the sensors(Accelerometer, sd card, audio codec,etc) , built-in capability for power management(example: configurable power domain,clock gating, power gating, dynamic voltage and frequency scaling), enough debugging opportunities and sufficient on-chip memory for buffering data. 
 
 \subsection {Build-Quality requirements} 
-\hspace{10mm}The most important requirement is that the device be small in size(20 mm X 40 mm) ,robust, comfortable and comply with the medical guidelines. The device should have defibrillation protection feature.Additionally the device must be water and sweat proof. These requirements for the device must be achieved while maintaining the signal quality requirements discussed in section \ref{signal requirements}.  
+\hspace{10mm}The most important requirement is that the device be small in size(40 mm X 60 mm) ,robust, comfortable and comply with the medical guidelines. The device should have defibrillation protection feature.Additionally the device must be water and sweat proof. These requirements for the device must be achieved while maintaining the signal quality requirements discussed in section \ref{signal requirements}.  
 
 \section {Design requirement and Constraint} 
 In general, the requirements associated with a wearable devices places severe restrictions on size and power consumption. Even though battery technology is improving continuously and processors are rapidly improving in terms of power consumption,battery life and battery weight are issues that will have a marked influence on how  Wearable medical devices can be used. Medical devices often require real-time processing capabilities, and thus demand high throughput. Power consumption is becoming the limiting factor in the amount of functionality that can be placed in these devices. 
@@ -137,10 +138,10 @@ limited amount of resources provided by the system, an engineer has to think car
 \hspace{10mm}The main problem of such design is to find the most efficient combination of resource usage, optimal performance and battery capacity. The basic rule is to use the available resources as efficient as possible, while trying to achieve, at least, the required performance, i.e. latency or execution time under the power budget. This means all deadlines have to be met with whatever resource existing on the system with minimum power consumption. 
 
 
-\hspace{10mm}As mentioned in the previous section BlueBox has an size and weight constraint which is considered during the design to optimize the resources of the system to fulfill the constraints. It is required to run for a minimum of four hours on battery and is optimized to have the minimum required resources to acquire, process and store the large number of high frequency data sets, mentioned in the previous section, with the required performance.  
-Battery capacity is directly proportional to its weight as lithium ion battery tend to have a fixed energy density .The battery consideration is primarily based on its size, weight and heat dissipation. So here the battery capacity is traded off to meet the size and medical guidelines.  
+\hspace{10mm}As mentioned in the previous section BlueBox has an size and weight constraint which is considered during the design to optimize the resources of the system to fulfill the constraints. It is required to run for a minimum of four hours on battery and is optimized to have the minimum required resources to acquire, process and store the large number of high frequency signals, mentioned in the previous section, with the required performance.  
+Battery capacity is directly proportional to its weight as lithium polymer battery tend to have a fixed energy density. The battery consideration is primarily based on its size, weight and heat dissipation. So here the battery capacity is traded off to meet the size and medical guidelines.  
 
-The table \ref{table:power_rating} lists the major components and their power consumption. The best battery that fulfill the size constraint has capacity of 300 mAh @ 3.7 volts. Which is equivalent to 1110 mWh of energy. The power consumption of system sums up to 635 mW approximately. At this rate the system will deplete the battery in approximately 100 minutes. 
+The table \ref{table:power_rating} lists the major components used in BlueBox and their power consumption. The best battery that fulfill the size constraint has capacity of 300 mAh @ 3.7 volts. Which is equivalent to 1110 mWh of energy. The theoretical power consumption of system sums up to 635 mW approximately. At this rate the system will deplete the battery in approximately 100 minutes. 
 \begin{table}[h]
 	\centering
 	\begin{tabular}{|r|r|}
@@ -161,9 +162,9 @@ The table \ref{table:power_rating} lists the major components and their power co
 	\label{table:power_rating}
 \end{table}
 
-From the above  calculations it is evident that energy is a scarce resource of this system and it is very important to do rigorous power management to extend the battery life to meet the requirement. So BlueBox with a limited power budget posts the interesting challenge of optimizing the power consumption of the  device while meeting all deadlines fulfilling the functionalities with the constrained resources on the system and keep the device running for a minimum of two hours.
+From the above  calculations it is evident that energy is a scarce resource in this system and it is very important to do rigorous power management to extend the battery life to meet the requirement. So BlueBox with a limited power budget posts the interesting challenge of optimizing the power consumption of the  device while meeting all deadlines fulfilling the functionalities with the constrained resources on the system and keep the device running for a minimum of two hours.
 
-The thesis tries to solve the above mentioned problem statement with structured methodologies for extensive power management through the firmware. The further chapters gives the general context of the hardware and software architecture . Then dives into the power management techniques used to solve the above mentioned problem.
+The thesis proposes solution to the above mentioned problem statement with structured methodologies for extensive power management through the firmware. The further chapters gives the general context of the hardware and software architecture . Then dives into the proposed power management techniques that tries to solve the problem.
 
 
 %%% Local Variables: ***

@@ -2,7 +2,7 @@
 
 Chapter 5 gives a background on general sources of power consumption in a digital system and describes some of the primitive techniques used for power management. Section 5.4 describes the design flow of power management techniques for BlueBox system. Section 5.5 to 5.7 explains the details of those techniques.  
 \section{Background} In order to design successfully for low power consumption, it is important to have a through understanding of the sources  of power dissipation, the factors that affect them and the methodologies and techniques that are available to achieve optimal results.  
-Throughout this chapter, we discuss power consumption and methods for reducing it. Energy is the time integral of power; if power consumption is a constant, energy 
+Throughout this chapter, we discuss about power consumption and methods for reducing it. Energy is the time integral of power; if power consumption is a constant, energy 
 consumption is simply power multiplied by the time during which it is consumed. 
 Reducing power consumption only saves energy if the time required to accomplish the 
 task does not increase too much.The chapter presents the sources of power dissipation and describes the important low-power methodologies and power optimization techniques available. Low-power design can be applied on various abstracted levels, such as system level, architectural level and technological level. This chapter could as well be utilized as a quick review on low power design. 
@@ -113,8 +113,8 @@ V\textsubscript{DD} in order to save power. Even though delay is increasing, the
  
  \section{Design flow}
  
- Design flow of any system constitutes of various level of abstraction. Abstraction reduces complexity  and allow efficient design and implementation of complex systems.The aspect of the system that needs to be optimized helps in designing the various levels of abstraction. When a system is designed with the emphasis on power optimization , then the design must embody optimization at all levels of the design flow. In general the support for energy management needs to be incorporated at the system level and the architectural level. An important aspect of the design flow is the relation and feedback between the levels. Paul J.M Havinga et. al, 
- have come up with three layers of abstraction: system, architecture and technology \cite{havinga,havinga2,havinga3}. Figure \ref{fig:quote} describes the abstraction level and related examples for energy reduction.
+ Design flow of any system constitutes of various level of abstraction. Abstraction reduces complexity  and allow efficient design and implementation of complex systems. The aspect of the system that needs to be optimized helps in designing the various levels of abstraction. When a system is designed with the emphasis on power optimization , then the design must embody optimization at all levels of the design flow. In general the support for energy management needs to be incorporated at the system level and the architectural level. An important aspect of the design flow is the relation and feedback between the levels. Paul J.M Havinga et. al, 
+ have come up with three layers of abstraction: system, architecture and technology \cite{havinga,havinga2,havinga3}. Table \ref{table:abstraction} describes the abstraction level and related examples for energy reduction.
  \begin{table}
  	\centering
  	\begin{tabular}{|l|l|}
@@ -152,7 +152,7 @@ V\textsubscript{DD} in order to save power. Even though delay is increasing, the
  them.
  
  
- The above mentioned layers can be considered as vertical layers of any digital system. The BlueBox system could be broken down into three main subsystem as shown in figure \ref{table:sub-system} based on its application semantics: sensor, processor and storage subsystem.These sub-systems work together and are interdependent on each other for their functionalities. Each of these subsystem contains  all three abstraction layers mentioned above. Our low-power design flow targets each of these three horizontal layers of subsystem individually and the interdependent  vertical layers within them. It is interesting that effect on a single subsystem creates space for further power savings for its dependent subsystem. 
+ The above mentioned layers can be considered as vertical layers of any digital system. The BlueBox system could be broken down into three main subsystem as shown in figure \ref{table:sub-system} based on its application semantics: sensor, processor and storage subsystem. These sub-systems work together and are interdependent on each other for their functionalities. Each of these subsystem contains  all three abstraction layers mentioned above. Our low-power design flow targets each of these three horizontal layers of subsystem individually and the interdependent  vertical layers within them. It is interesting that effect on a single subsystem creates space for further power savings for its dependent subsystem. 
  
   \begin{table}
  	\centering
@@ -186,20 +186,20 @@ V\textsubscript{DD} in order to save power. Even though delay is increasing, the
  
  \section{Power Management of Sensor sub-system}
  
- A sensor is a device that converts real world physical parameters into electrical signals that a computer can understand.  They are the most important part of the BlueBox system. As shown in table \ref{table:sub-system} BlueBox employs five different sensors. Most of which are performing active real time sensing. They also do have a processing capabilities embodied with them. They contribute to the significant amount of power consumed by the system.  
- The first, and perhaps most direct, approach of our low power consumption design targets the sensor itself. The following section describes the three simple techniques that were employed in BlueBox that enabled low power sensing.
+ A sensor is a device that converts real world physical parameters into electrical signals that a computer can understand.  They are the most important active part of the BlueBox system. As shown in table \ref{table:sub-system} BlueBox employs five different sensors. Most of which are performing active real time sensing. They also do have a processing capabilities embodied with them. They contribute to the significant amount of power consumed by the system.  
+ The first, and perhaps most direct, approach of our low power consumption design targets the sensor itself. BlueBox employs power mode management, smart sensing and computational offloading techniques to reduce the power consumption of the DSP. The following section describes the three simple techniques that enabled low power sensing.
  \subsection{Sensor power mode management}
    Most of the sensors designed for low power consumption have one or more lower power states such as a shutdown mode or an extremely low-power operating mode \cite{lowpwrsensing}. In many instances, this types of sensor's operation is directly controlled by  the firmware designer in the end application. It is also important to note that there is always a cost associated with the low power modes. The cost could be reduced performance, increased latency, delayed boot-up etc. And transition of modes consumes power too. So it is the application semantics that decides the best modes of operation and how often transition needs to be triggered. 
  
  
- The body temperature sensor (MA100) is eventually a thermistor. The voltage drop across the thermistor is a value proportional to the body temperature. The simplified circuitry of MA100 can be seen in figure \ref{body_temp}.
+Considering the body temperature sensor (MA100) from BlueBox system. It is eventually a thermistor. The voltage drop across this thermistor is a value proportional to the body temperature. The simplified circuitry of MA100 can be seen in figure \ref{body_temp}.
  \begin{figure}[h]
  	\centering
  	\includegraphics[scale = 0.5 ]{body_temp.JPG}
  	\caption{Simplified version Body Temperature measurement circuitry\label{body_temp}}
  \end{figure}
  
- The C5515 DSP supplies the reference voltage to the thermistor MA100. As body temperature is measured only once in a second, the reference voltage could be supplied only during the measurement and can be turned off the rest of the time to save the power dissipated by the measurement circuit during the unused time.
+ The C5515 DSP supplies the reference voltage to the thermistor MA100. As body temperature is measured only twice in a second, the reference voltage could be supplied only during the measurement and can be turned off the rest of the time to save the power dissipated by the measurement circuit during the unused time.
  
  From \ref{mpu9250_def} it can be noticed that the Accelerometer sensor(MPU9250) takes 30ms to wakeup from sleep and generate a valid accelerometer  value. BlueBox cannot afford to spend this time inside the ISR. So it is a good idea to keep the MPU9250 under low-power accelerometer mode, which consumes 19.8 $\mu$A providing the required response time.
  
@@ -213,9 +213,9 @@ The sensor's embedded logic detects events and notifies the DSP over interrupt. 
  FIFO allows buffering of the data so a host system can power on the sensor and read the 
  data at a slower rate. As a result, the DSP can be kept in a lower power state more of 
  the time, achieving lower power consumption for itself and lower duty cycle operation for 
- the DSP whose power consumption can be hundreds or even a thousand times 
+ the DSP whose power consumption is approximately ten times 
  higher than the accelerometer’s power consumption. By reducing the DSP’s power 
- on time by a mere 0.5 \%, the system consumes less power even though the accelerometer 
+ on time by a very small amount, the entire system might still consumes less power even though the accelerometer 
  consumes more power. The system-level advantages more than compensate for the slightly 
  higher power consumption in the sensor. 
  
@@ -225,27 +225,29 @@ The sensor's embedded logic detects events and notifies the DSP over interrupt. 
   \begin{figure}[h]
  	\centering
  	\includegraphics[scale = 0.5 ]{AIC_processingBlock.JPG}
- 	\caption{Signal Processing blocks of Audio Codec. Source \cite{audiocodec} \label{AIC_processingBlock}}
+ 	\caption{Signal Processing blocks of Audio Codec. \cite{audiocodec} \label{AIC_processingBlock}}
  \end{figure}
  
- This design methodology is used in BlueBox to reduce the power consumption of audio data acquisition through the use of local compute capability of the Audio Codec. Audio signal captured through the electret microphones contains some noise with it. And is required to filter the signal to improve the audio quality and attenuate high frequency noises. The process of digital filtering at the DSP could be a good solution as the filter can be designed specific for the application and the signal of interest. But it consumes lots of computational bandwidth and power which is not very desirable for the BlueBox application. So BlueBox uses the signal processing support extended by the audio codec AIC3204 as shown in figure \ref{AIC_processingBlock}. The codec has a fixed number of filters with configurable coefficients. Offloading the digital filtering computation to the codec saves a significant amount of computational bandwidth and power.
+ This design methodology is used in BlueBox to reduce the power consumption of audio data acquisition through the use of local compute capability of the Audio Codec. Audio signal captured through the electret microphones contains some noise with it. And is required to filter the signal to improve the audio quality and attenuate high frequency noises. The process of digital filtering at the DSP could be a good solution as the filter can be designed specific for the application and the signal of interest. But it consumes lots of computational bandwidth and power which is not very desirable for the BlueBox application. So BlueBox uses the signal processing support extended by the audio codec AIC3204 as shown in figure \ref{AIC_processingBlock}. The codec has a fixed number of filters with configurable coefficients. So this application specific filtering circuits in the codec would be more efficient , perform faster and consume significantly less energy than doing the same filtering process in the general purpose processor. Offloading the digital filtering computation to the codec saves a significant amount of computational bandwidth and power.
  
 \section{Power Management of DSP subsystem }
 
 Selecting a processor is one of the most critical decisions when we are designing an embedded 
-system. This selection is based on the features required to satisfy the control functionality of the final product and the raw computing power needed to fulfill those system requirements. There are several points to be aware of when selecting a processor. The overall power consumption of a MCU is defined by its power consumption in different modes, typically active and standby (including sleep, idle,standby, etc.),  and taking into account the power consumed to transition from one mode to another. 
+system. This selection is based on the features required to satisfy the control functionality of the final product and the raw computing power needed to fulfill those system requirements. There are several points to be aware of when selecting a processor. The overall power consumption of a MCU is defined by its power consumption in different modes, typically active and standby (including sleep, idle, standby, etc.),  and taking into account the power consumed to transition from one mode to another. 
 
 Active power consumption by a processor is the power consumed when the processor is running. As almost all controllers are based upon CMOS logic, power is consumed primarily during the switching of transistors. The other major factor which determines the run time of the system is the standby power consumption. Most applications can spend significant amount of time in standby mode. Standby current is the sum of leakage current, current consumed by power management circuits, clocking systems, power regulators, RTC, IOs, interrupt controllers, and so on. It varies from controller to controller, based upon the particular features and peripherals supported in standby mode.  
 The power consumed in standby mode is significantly very less than in active mode. So the basic idea is to put the processor into standby mode when ever it is possible and try to keep the processor idle as long as possible to reduce the power consumed by the processor. The following section discusses the techniques used in the BlueBox system to reduce the processor power consumption. 
+
+
 Timing analysis is the first step towards the understanding of the processor functionality in terms of processor utilization \cite{sastra}. The processor utilization 'U' is defined as the total amount of time spent idle by the processor. 
 \[ U = 100\% - (\% T_{idle}) \hspace{20mm} (1)\]
 
-Idle time is the time during which processor does not do any useful work. Normally this is an infinite loop that spins the processor waiting for an event. The code composer studio IDE ,which is used for firmware development,  provides the timing analysis of the code execution in DSP. Once the average idle time is known, we can measure the active utilization when the system is under various states of loads using the equation 1. BlueBox employs Intelligent waiting, even reduction and intelligent peripheral shutdown techniques to reduce the power consumption of the DSP. The following sections explains each of the technique in detail. 
+Idle time is the time during which processor does not do any useful work. Normally this is an infinite loop that spins the processor waiting for an event. The code composer studio IDE ,which is used for firmware development,  provides the timing analysis of the code execution in DSP. Once the average idle time is known, we can measure the active utilization when the system is under various states of loads using the equation (1). BlueBox employs Intelligent waiting, even reduction and intelligent peripheral shutdown techniques to reduce the power consumption of the DSP. The following sections explains each of the technique in detail. 
 
 \subsection{Intelligent Waiting}
-The TMS320C5515 DSP includes various run-time power modes that can be used to scale down power consumption. The most common of important is idle mode of operation, in which the instruction-executing portion of the processor core shuts down while all peripherals and interrupts remain powered and active.Idle mode consumes substantially less power than the 
+The TMS320C5515 DSP includes various run-time power modes that can be used to scale down power consumption. The most common of important is idle mode of operation, in which the instruction-executing portion of the processor core shuts down while all peripherals and interrupts remain powered and active. Idle mode consumes substantially less power than the 
 processor is actively executing instructions. A key aspect of idle mode is that it requires little overhead to enter and exit, usually allowing it to be applied many times every millisecond. Anytime the DSP is spinning in a loop or blocked waiting for an event it should be placed into idle mode to conserve power. Since any interrupt can wake the DSP from idle mode, use of this mode enables the DSP to intelligently wait for events in the system.  
-The BlueBox system is dependent on external interrupts generated by the ECG analog frontend and the audio codec through the I2S bus.From figure \ref{main} it can be seen that the main thread of the BlueBox goes to idle mode after writing the pages to SD card , if they are available. When an interrupt occurs, the DSP wakes up and interrupt is serviced. Then the DSP checks if any page is available to write and then goes back into the idle mode to save power. 
+The BlueBox system is dependent on external interrupts generated by the ECG analog frontend and the audio codec through the I2S bus. From figure \ref{main} it can be seen that the main thread of the BlueBox goes to idle mode after writing the pages to SD card , if they are available. When an interrupt occurs, the DSP wakes up and interrupt is serviced. Then the DSP checks if any page is available to write and then goes back into the idle mode to save power. 
 
 
 \subsection{Event reduction}
@@ -263,34 +265,42 @@ or received from peripherals. DMA should be used in peripheral drivers whenever 
 The receiver DMA ping-pong buffer is of 2KB size and it takes 1000 interrupts and move the data into the buffer. When the buffer is full, the DMA interrupts the processor to take further actions. In the mean time the DMA starts servicing the interrupts filling up the pong buffer. Therefore during the situations where the processor is more prone to face the external interrupts, the event reduction approach using the DMA will be the solution.
 
 \subsection{Intelligent peripheral shutdown}
-All the above three methods are for the power consumption when the device is running. This method of intelligent shutdown is useful when the peripheral is clock or power gated when it is not in use. The C5515 processor continues to power the general purpose input output pins and peripherals during idle mode. As inputs, these I/O pins can be used as interrupts to wake 
+All the above methods are for the power consumption when the device is running. This method of intelligent shutdown is useful when the peripheral is clock or power gated when it is not in use. The C5515 processor continues to power the general purpose input output pins and peripherals during idle mode. As inputs, these I/O pins can be used as interrupts to wake 
 up the device; as outputs, they can be used to configure to external peripherals. Careful configuration of how these pins are configured can have large effect on sleep mode power consumption. 
-The DSP has separate power domains which provide power to different portions of the device. The separate power domains allows the firmware to select the optimal voltage to achieve the lowest power consumption at the best possible performance. There are 13 different power domains each of which powers a specific domain. The following table gives the brief gist of the power domains.
-\begin{figure}
+\begin{figure}[h]
 	\centering
-	\includegraphics[scale = 1 ]{power_domain.JPG}
-	\caption{C5515 DSP power domains. Source\cite{appref}\label{power_domain}}
+	\includegraphics[scale = 0.5 ]{power_domain.JPG}
+	\caption{C5515 DSP power domains. \cite{appref}\label{power_domain}}
 \end{figure}
-Body temperature is measured once in a second. From figure \ref{body_temp} shows the simplified body temperature measurement circuitry. It can be understood that the ADC peripheral of the DSP will be used only once every second. So BlueBox firmware enables the Analog power domain that powers the ADC only during the measurement. The figure \ref{power_domain} shows the active power domains during the different phases of the firmware operation .
+The DSP has separate power domains which provide power to different portions of the device. The separate power domains allows the firmware to select the optimal voltage to achieve the lowest power consumption at the best possible performance. There are 13 different power domains each of which powers a specific domain. Figure \ref{power_domain} gives the brief gist of the power domains.
+
+
+
+Body temperature is measured twice in a second. From figure \ref{body_temp} shows the simplified body temperature measurement circuitry. It can be understood that the ADC peripheral of the DSP will be used only twice every second. So BlueBox firmware enables the Analog power domain that powers the ADC only during the measurement. The Analog power domain and also the ADC peripheral is shutdown during the rest of the time. 
 
 \section{Power management of Storage Subsystem}
-Storage contributes to a significant fraction of power consumption of embedded system. With respect todata acquisition and logging system the fraction is somewhere between 30 to 50 \% . From the table \ref{table:power_rating} we can notice that power consumption of SDHC card is approximately equal to 50\% of the entire system when a read or write action is performed. It is thus required to manage the storage sub-sytem with atmost care. So the basic idea is to write or read as minimum as possible and only when it is required.
-Storage subsystem involves the SDHC card and MMCSD interface from the DSP. As mentioned in section \ref{memory} SDHC card is block addressable. Blocks of size 512 bytes can be written or read from the SD card. So the processor has to buffer blocks of data and write them into the SD card.  
+Storage contributes to a significant fraction of power consumption of embedded system. With respect todata acquisition and logging system the fraction is somewhere between 30 to 50 \% . From the table \ref{table:power_rating} we can notice that power consumption of SDHC card is approximately equal to 50\% of the entire system when a read or write action is performed. It is thus required to manage the storage sub-sytem with atmost care. So the basic idea is to write or read as minimum as possible and only when it is required and keep the SDHC card utilization as low as possible.
+Storage subsystem involves the SDHC card and MMCSD interface from the DSP. As mentioned in section \ref{memory} SDHC card is block addressable. Blocks of size 512 bytes can be written or read from the SD card. So the processor has to buffer or cache blocks of data and write them into the SD card.  
 
-The five different signals have to be stored in the SD card. BlueBox system groups these signals into two category. One just has the audio signal and other has ECG, accelerometer and temperature data. There are buffers associated with each of these categories and the respective data is written into them and eventually flushed to the SD card. The reason for such categorization is because of the amount of data produced by these signals. Audio data is produces at a rate of 48 kilobyte every second, so they need dedicated buffer for themselves to be stored. The other signals are sampled comparitvely very less, so they could be grouped together to share buffers and are written into the SD card. 
+The five different signals have to be stored in the SD card. BlueBox system groups these signals into two category. One just has the audio signal and other has ECG, accelerometer and temperature data. There are buffers associated with each of these categories and the respective data is written into them and eventually flushed to the SD card. The reason for such categorization is because of the amount of data produced by these signals. Audio data is produces at a rate of 48 kilobyte every second, so it makes sense to have dedicated buffer for themselves to be stored. The other signals are sampled comparatively very less, so they could be grouped together to share buffers and are written into the SD card. 
 
 The ECG analog front end interrupts the DSP at a frequency of 500Hz. Each sample collected during the interrupt is appended to the buffer. Because accelerometer only needs to be sampled at 12Hz, a counter within the interrupt ensures that accelerometer is sampled only once every 40 interrupts. Similarly the temperature is to be sampled at 2 Hz, a counter within the interrupt service routine is used to make sure samples are taken every 250 interrupts. Each time the signals are sampled , values from each of the sensors are stored in the respective position in the buffer. 
 \subsection{Saving data to micro SD card}
 
-Because the BlueBox must be able to continuously and without interruption, the timer interrupt services must continue to operate even when data is being written to SD card. So DMA's are used to write the data into the SD card as it can do the task without the interference of the DSP.When possible, sampled data is saved directly to a primary data buffer. When the primary data buffer is full DMA is instructed to initiate the transfer of the data from primary buffer into the SD card persistent storage. In the meantime data collected is stored in the secondary buffer and the cycle goes on. 
+Because the BlueBox must be able to function continuously, the interrupt services must continue to operate even when data is being written to SD card. So DMA's are used to write the data into the SD card as it can do the task without the interference of the DSP. When possible, sampled data is saved directly to a primary data buffer. When the primary data buffer is full DMA is instructed to initiate the transfer of the data from primary buffer into the SD card persistent storage. In the meantime data collected is stored in the secondary buffer and the cycle goes on. 
 
-There are lot of different ways of writing and organizing the data in the SD card. One way is to use existing filesystem that is recognizable by the general operating system, other way is to write the raw data and to design a own file system. There are pro's and con's associated with designing a new file system. Using a existing standard filesystem like FAT 16, FAT 32, NTFS etc are really simple to implement as standard libraries are present but they were all designed for user comfortability and are designed for higher end computational devices. There is a huge overhead associated with storing and reading of data . For example inorder to write a block of data into a file, it takes multiple reads to figure out to which block address it should go and write into that address. This process keeps the SD card busy for longer duration, which is very undesirable for our application. It is required to come up with a simple custom filesystem that could suffice the necessity of application. The problems of custom file system is incompatibility with standard operating system. To read data from the SD card , it is required to develop a file system driver which is capable of reading this SD card and also it requires some time to implement and test the custom file system. The important thing here to notice is that the custom filesystem could potentially save time and power it consumes to write data to the SD card. The following section gives a brief description of the filesystem used in BlueBox. 
+There are lot of different ways of writing and organizing the data in the SD card. One way is to use existing filesystem that is recognizable by the general operating system, other way is to write the raw data and to design a n application specific custom file system. There are pros and cons associated with designing a new file system. Using a existing standard filesystem like FAT, NTFS etc., are really simple to implement as standard libraries are present but they were all designed for user comfortability and are designed for higher end computational devices. There is a huge overhead associated with storing and reading of data . For example, in order to write a block of data into a file, first it takes multiple SD card reads to figure out to which block address the data should be written then the actual processes of writing happens. This process keeps the SD card busy for longer duration, which is very undesirable for our application. It is required to come up with a simple custom filesystem that could suffice the necessity of application. The problems of custom file system is incompatibility with standard operating systems. To read data from the custom formatted SD card , it is required to develop a file system driver which is capable of reading this SD card. It requires some time to implement and test the custom file system. The important thing here to notice is that the custom filesystem could potentially save time and power it consumes to write data to the SD card.
+
 
 \subsection{File System}\label{filesystem}
+
+ 
+
 A Secure Digital High Capacity(SD) card basically has a SD controller module and a memory core. Memory core is where the data is stored in. The memory core of a SDHC card is divided into blocks of 512 bytes and they are block addressable.  BlueBox caches the data in a local buffer, which  are, in general multiples of block size of the SD card. For convenience of understanding, the buffer that caches the data is referred as pages. The custom filesystem developed for bluebox has three categories of pages. They are audio page(same page layout used for both the channels of audio), vitals page(includes ECG, temperature and accelerometer data) and index page. The page size used for audio is 2Kb and for ECG its 512 bytes.
- Figure \ref{audio_page} shows the layout of audio page. Size of an audio page is 2 kilobytes, which is four blocks.It just contains the actual data and does not encode any meta-data with it. The pointers to the audio pages are present in the Index page. Each audio page accounts for four blocks, so when ever an audio page is written to the SD card, the corresponding four block address are stored in the index page. 
+ Figure \ref{audio_page} shows the layout of audio page. It just contains the actual audio data and does not encode any meta-data with it. The pointers to the audio pages are present in the Index page. Each audio page accounts for four blocks, so when ever an audio page is written to the SD card, the corresponding four block address are stored in the index page. 
 \begin{figure}[h]
 	\centering
+	\hspace*{-2cm} 
 	\includegraphics[scale = 0.5 ]{audio_page.JPG}
 	\caption{Audio Page\label{audio_page}}
 \end{figure}
@@ -313,8 +323,8 @@ Index page description:
 	\caption{Index Page\label{index_page}}
 \end{figure}
 
-The firmware filesystem driver keeps track of the next available free block and decides to which block does the page of data go into. All the pages are written to the SD card sequentially. After the page has been successfully written by the DMA, the block address pointer is updated to point to the next free block.  24 pages of audio sample is written per second and 4 pages of ECG and other aggregated data is written per second.  
-Also the filesystem keeps track of which block of the storage has which type of page through page identifiers and the pointers in the index page. The index page is also stored in an in memory buffer and when it fills up it is written into the SD card. So that while reading back the data from the SD card we could organize the blocks and reconstruct the data stream.  
+The firmware filesystem driver keeps track of the next available free block and decides to which block does the data in the page go into. All the pages are written to the SD card sequentially. After the page has been successfully written by the DMA, the block address pointer is updated to point to the next free block.  24 pages of audio sample is written per second and 4 pages of ECG and other aggregated data is written per second.  
+The filesystem inherently keeps track of content of each block through page identifiers and the pointers in the index page. The index page is also cached in a buffer and when it fills up it is written into the SD card. So that while reading back the data from the SD card we could organize the blocks and reconstruct the data stream.  
 
 This simple custom filesystem  helped in reducing the overhead of writing data to SD card , which in general is very high with a standard file system that adds up bunch of meta data. The following graph \ref{fig:fs_time} shows the time taken to write the data to sd card and compares the two file system. The x axis marks the amount of data( includes only the meaningful sensor data)  and the y axis marks time in millisecond.
 
@@ -358,7 +368,8 @@ coordinates {
 
 \end{axis}
 \end{tikzpicture}\label{fig:fs_time}
-From the figure \ref{fig:fs_time} it is evident that for the same amount of actual data the custom filesystem takes, on an average, 50x less time to write than the FAT filesystem. The custom filesystem essentially spends less energy and consumes less power to save the data by reducing the active utilization time by 50x. 
+
+From the figure \ref{fig:fs_time} it is evident that for the same amount of actual data the custom filesystem takes, on an average, 50x less time to write than the FAT filesystem. The custom filesystem essentially spends less energy to save the data by reducing the active utilization time by 50x. 
 
 
-From the experiment with SDHC card,running at 20MHz clock at 3.3 V,  the write/read operation consumes 35mA (considering only DSP and SD card active) and in standby it consumes 22mA. BlueBox system requries to write 50 KB of data every second. With FAT file system, the system consumes average current of 30.5mA when writing 50KB of data in one second whereas the custom file system's average current consumption is 17.27 mA. Thus The designed file system reduces the system power consumption by 50\% within the application semantics of BlueBox. 
+From the experiment with SDHC card,running at 20MHz clock at 3.3 V,  the write/read operation consumes 35mA (considering only DSP and SD card active) and in standby it consumes 22mA. BlueBox system requries to write 50 KB of data every second \ref{system requirements}. With FAT file system, the system consumes average current of 30.5mA when writing 50KB of data in one second whereas the custom file system's average current consumption is 17.27 mA. Thus the designed file system reduces the system power consumption by 50\% within the application semantics of BlueBox. 

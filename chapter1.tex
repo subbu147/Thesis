@@ -15,7 +15,7 @@ scenes, to ambulances, to hospitals \cite{miTag}.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale = 0.6 ]{miTag.JPG}
-	\caption{Medical Information Tag. Source \cite{miTag}\label{fig:miTag}}
+	\caption{Medical Information Tag. \cite{miTag}\label{fig:miTag}}
 \end{figure}
 The miTags can increase 
 the patient care capacity of responders in the field. The miTag  supports sensor add-ons – GPS, pulse oximetery, blood pressure and ECG. 
@@ -32,23 +32,16 @@ the controlled environment of a clinical situation.
 
 
 \section{Objective}
-\hspace{10mm}The miTag and the AID-N systems presented above has challenges when it comes to the usability under a chaotic environment of emergency.Time is a critical resource during emergency and usability issue consumes this critical resource. Also the basic idea of building such devices is to help paramedics provide emergency care while maintaining record of the patients condition. But the above mentioned system does not provide space for paramedics to log about the patients response to their emergency treatment. BlueBox , the proposed system, addresses these issue.Collaborating with La BioMed we developed BlueBox (like Black Box device in a Aeroplanes) a low-cost, low-power wearable device that automates monitoring patient’s vitals and paramedic's log throughout each step of the response process.  The system provides a new paradigm to emergency response treatment by automating the patient monitoring process. The idea is to design an easy to use wearable hardware and integrate software solutions that records important  patient’s vitals and paramedic's logs in the database , which allows the doctors and physicians at the hospital to review . Access to this information could allow them to provide better care.
+\hspace{10mm}The miTag and the AID-N systems presented above has challenges when it comes to the usability under a chaotic environment of emergency. Time is a critical resource during emergency and usability issue consumes this critical resource. Also the basic idea of building such devices is to help paramedics provide emergency care while maintaining record of the patients condition. But the above mentioned system does not provide space for paramedics to log about the patients response to their emergency treatment. BlueBox , the proposed system, addresses these issues. Collaborating with LA BioMed we developed BlueBox (functionally similar to Black Box device in a Aeroplanes) a low-cost, low-power wearable device that automates monitoring patient’s vitals and paramedic's voice logs throughout each step of the response process. The idea is to design an easy-to-use wearable hardware and integrate software solutions that records important  patient’s vitals and paramedic's logs in the storage, which allows the doctors and physicians at the hospital to review . Access to this information could allow them to provide better care.
 
-\hspace{10mm}BlueBox  platform support recording of variety of data including Electrocardiogram(ECG), body temperature, respiration pattern (through Chest movements monitoring and audio) , Environment temperature sensors, paramedic’s voice log about patient condition . BlueBox relieves the workload for paramedics by automating the task of data recording that helps improve quality of patient care and deliver patients to the hospital with a clear picture of patients condition from the time emergency. Our system accomplishes this through the following technologies:
-
-\begin{itemize}
-	\item Wearable sensors and electrodes to sense and record vital signs into an electronic storage.
-
-	\item Microphones to record paramedic’s comments about the condition of the patient and synchronize with the vitals.
-	
-\end{itemize}
+\hspace{10mm}BlueBox  platform supports recording of variety of data including Electrocardiogram(ECG), body temperature, respiration pattern (through Chest movements monitoring and breathing audio) , Environment temperature sensors, paramedic’s voice logs about patient condition . BlueBox relieves the workload for paramedics by automating the task of data recording that helps improve quality of patient care and deliver patients to the hospital with a clear picture of patients condition from the time emergency. 
 
 \section{Thesis Goals}
-\hspace{10mm}The goal of this thesis is to build low power firmware for BlueBox which is designed to be wearable,battery operated easy-to-use . Wearable medical devices have strict size and weight constraints while having a functional and behavioural specifications that demands the system to have high performance and function for hours. Battery capacity is directly proportional to its size. Smaller the size and weight , lower the capacity of the battery\cite{}. Battery capacity is a huge bottleneck for these systems. So these systems requires an extensive power management strategies to be deployed in hardware and software level. This is a hardware-software cosynthesis problem.
+\hspace{10mm}The goal of this thesis is to build low power firmware to realize the functionalities of the BlueBox device within the resource constraints. BlueBox is a wearable, battery operated easy-to-use device. Wearable medical devices have strict size and weight constraints while having a functional and behavioural specifications that demands the system to have high performance and function for hours. Battery capacity is directly proportional to its weight as lithium polymer battery tend to have a fixed energy density. Smaller the size and weight , lower the capacity of the battery. Battery capacity is a huge bottleneck for these systems as the system requires to do active sensing and storage for hours. So these systems requires an extensive power management strategies to be deployed in hardware and software level. This problem can be casted to a hardware-software co-design problem.
 
 Hence, in this thesis project, the goal can be stated as the following:
 
- \hspace{10mm}To build a low-power firmware for BlueBox system so that the device is able to acquire data at the required frequency and store the data in a local storage while functioning for atleast 3 hours. 
+ \hspace{10mm}To build a low-power firmware for BlueBox system so that the device is able to acquire data at the required frequency and store the data in a local storage while functioning for at least 4 hours. 
  
  The methods applied to accomplish the project can be elaborated as the following steps:
  \begin{itemize}
