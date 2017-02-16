@@ -27,12 +27,12 @@ TMS320C5515 is a fixed-point DSP based on the TMS320C55x™ CPU processor core. 
 \subsection{Clock Frequency}The DSP has a low power software programmable Phase Locked Loop (PLL) clock generator that supports 60-, 75-, 100-, 120-MHz clock rate.
 \subsection{On-Chip Memory}The DSP has 320K Bytes Zero-Wait state On-Chip RAM and 128K of On-Chip ROM. 
 
-\subsection{Peripherals} The DSP has general-purpose input and output functions along with the 10-bit SAR ADC provide sufficient pins for status, interrupts, and bit I/O for LCD displays, keyboards, and media interfaces. Serial media is supported through two Multimedia Card/Secure Digital (MMC/SD) peripherals, four Inter-IC Sound (I2S Bus™) modules, one Serial-Port Interface (SPI) with up to 4 chip selects, one I2C multi-master and slave interface, and a Universal Asynchronous Receiver/Transmitter (UART) interface. 
+\subsection{Peripherals} The DSP has general-purpose input and output functions along with the 10-bit Successive approximation register (SAR) Analog to Digital converter ( ADC) provide sufficient pins for status, interrupts, and bit I/O for LCD displays, keyboards, and media interfaces. Serial media is supported through two Multimedia Card/Secure Digital (MMC/SD) peripherals, four Inter-IC Sound (I2S Bus™) modules, one Serial-Port Interface (SPI) with up to 4 chip selects, one I2C multi-master and slave interface, and a Universal Asynchronous Receiver/Transmitter (UART) interface. 
 
 \subsection{DMA} The device includes four Direct Memory Access (DMA) controllers, each with 4 channels, providing data movement for 16-independent channel contexts without CPU intervention. Each DMA controller can perform one 32-bit data transfer per cycle, in parallel and independent of the CPU activity.
 
 
-\subsection{Power} Furthermore, the device includes three integrated low-droput (LDO) regulators (DSP LDO, ANA LDO, and USB LDO) to power different sections of the device. The DSP LDO can provide 1.3 V or 1.05 V to the DSP core (CVDD), selectable on-the-fly by software as long as operating frequency ranges are observed. 
+\subsection{Power} Furthermore, the device includes three integrated low-dropout (LDO) regulators (DSP LDO, ANA LDO, and USB LDO) to power different sections of the device. The DSP LDO can provide 1.3 V or 1.05 V to the DSP core (CVDD), selectable on-the-fly by software as long as operating frequency ranges are observed. 
 
 
 \section{AIC3204 : Audio Codec}
@@ -44,7 +44,7 @@ TLV320AIC3204 is an analog interface chip (AIC) of Texas Instruments which is a 
 	\caption{AIC3204 Block Diagram. \cite{audiocodec}\label{aic3204}}
 \end{figure}
 
-\hspace{10mm}Figure \ref{aic3204} displays the audio codec's architecture. It has capabilities of recording stereo audio signals. It has two channels that it can record. One channel is used for respiration recording and the other for paramedic's log recording. Each channel of the stereo audio ADC consists of a signal-processing engine with fixed processing blocks. The signal processing blocks available are: First-order IIR, Scalable number of biquad filters, Variable-tap FIR filter and AGC. The choice between these processing blocks is part of the PowerTune strategy to balance power conservation and signal-processing flexibility. Less signal-processing capability reduces the power
+\hspace{10mm}Figure \ref{aic3204} displays the audio codec's architecture. It has capabilities of recording stereo audio signals. It has two channels that it can record. One channel is used for respiration recording and the other for paramedic's log recording. Each channel of the stereo audio ADC consists of a signal-processing engine with fixed processing blocks. The signal processing blocks available are: First-order Infinite Impulse Response (IIR), Scalable number of biquad filters, Variable-tap Finite Impulse Response (FIR) filter and Automatic Gain Control (AGC). The choice between these processing blocks is part of the PowerTune strategy to balance power conservation and signal-processing flexibility. Less signal-processing capability reduces the power
 consumed by the device.
 \section{ADS1292R : ECG Frontend}
 ADS1292R is the ECG analog front end chip to which the electrode output is connected to. ADS1292R is a two channel, simultaneous sampling, 24-bit, delta-sigma ($\Delta$$\Sigma$) analog-to-digital converters (ADCs) with a built-in programmable gain amplifier (PGA), internal reference, and an on-board oscillator. ADS1292R incorporate all features commonly required in portable, low-power medical electrocardiogram (ECG), sports, and fitness applications. With high levels of integration and exceptional performance, the ADS1292R enable the creation of scalable medical instrumentation systems at significantly reduced size, power, and overall cost. ADS1292R have a flexible input multiplexer per channel that can be independently connected to the internally-generated signals for test, temperature, and lead-off detection. Additionally, any configuration of input channels can be selected for derivation of the right leg drive (RLD) output signal. The ADS1292R operate at data rates from 500SPS up to 8 kSPS. The devices are packaged in a 5-mm × 5-mm, 32-pin thin quad flat pack (TQFP). Operating temperature is specified from –40°C to +85°C. ADS1292R is interfaced with the DSP through SPI.
@@ -82,7 +82,25 @@ The BlueBox system has on-chip memory and the persistent micro SDHC(secure digit
  	\centering
  	\includegraphics[scale = 0.25 ]{battery.JPG}
  	\caption{Lithium Polymer battery}\label{fig:battery}
- \end{figure}       
+ \end{figure}      
+
+\nomenclature{PLL}{ Phase Locked Loop }
+\nomenclature{SAR}{ Successive Approximation Register }
+\nomenclature{ADC}{ Analog to Digital Converter } 
+\nomenclature{I2C}{ Inter Integrated Circuit } 
+\nomenclature{I2S}{ Inter-IC Sound } 
+\nomenclature{SPI}{ Serial Peripheral Interface }
+\nomenclature{UART}{ (Universal Asynchronous Receiver/Transmitter }
+\nomenclature{MMC}{ Multi Media Card }
+\nomenclature{DMA}{ Direct Memory Access }
+\nomenclature{LDO}{ Low DropOut }
+\nomenclature{USB}{ Universal Serial Bus }
+\nomenclature{RTC}{ Real-Time Clock }
+\nomenclature{AIC}{ Analog Interface Chip }
+\nomenclature{AGC}{ Automatic Gain Control }
+\nomenclature{FIR}{ Finite Impulse  Response }
+\nomenclature{IIR}{ Infinite Impulse  Response }
+
 %%% Local Variables: ***
 %%% mode: latex ***
 %%% TeX-master: "thesis.tex" ***

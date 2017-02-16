@@ -15,11 +15,11 @@ The motivation for the study can be broken down into the following:
 \section{Preliminary Experiments and 
 	System Characterization}\label{utilization_result}
 The basic device functionality of the device is tested by simulating the required signals locally in our lab. The ECG signal is simulated using Precise Life SKX 2000 ECG simulator(Figure \ref{fig:ecg_sim}). The ECG is interfaced in 4 lead configuration using right arm(RA), left arm(LA), left leg(LL) and right leg(RL) drive leads. The body temperature is simulated using sodium acetate based reusable head pods. The acceleration of chest, paramedic log and breathing sound are manually simulated.
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale = 0.5 ]{ecg_sim.JPG}
-	\caption{ECG Simulator\label{fig:ecg_sim}}
-\end{figure}
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[scale = 0.5 ]{ecg_sim.JPG}
+%	\caption{ECG Simulator\label{fig:ecg_sim}}
+%\end{figure}
 
 \hspace{10mm}The system is tested with the firmware that incorporated the techniques mentioned in the previous chapter. In order to determine the power dissipation, the relative contribution of the different parts of the system needs to be considered. First, the idle mode current of the system was measured to be 22 mA. The environment temperature sensor, ECG front end chip and the accelerometer are powered directly from the battery. They are not controlled by the DSP, so the state of the DSP does not affect their power consumption. These components always contribute towards the current drawn by the system irrespective of the state of DSP. The average current drawn by the system under different modes of operation are shown in table\ref{table:current_drawn}. The average current drawn by the system with all the sensors and DSP (running at 100MHz) being active was measured to be 38.64 mA. The average current drawn when writing to the SD card while all the components of the system are active was measured to be 48 mA. The current drawn by the system was measured using INA231 evaluation module \cite{INA231}, which samples the current drawn by the system every 140 $\mu$S and logs the data.
 \begin{table}[h]
