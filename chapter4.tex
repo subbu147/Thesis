@@ -28,7 +28,7 @@ Figure \ref{main} gives the overall flow of the firmware.
 First thing the firmware does after boot-up is to initialize the clock by configuring the phase locked loop(PLL) control registers. PLL is configured to generate a 100 MHz clock to tick the system. After the clocks have been set up, the multiplexed I/O pins are configured to function as a specific peripheral or a input/output pins. Then the clock and power to those I/O pins and peripherals are enabled. After the I/O pins are configured, the communication peripherals such as SPI, I2C and I2S are configured. Their mode of operation(master or slave), frequency of operation etc., are initialized and configured. DSP's I2S module is configured as the I2S master (master supplies bit clock and word clock) and the Audio codec AIC3204 is configured as the I2S slave. 
 
 \section{Initializing sensor}
-Audio Codec AIC3204 is configured, through the I2C interface , to sample the audio signal at 12Khz on each of the two channels and configured to amplify the signal with automatic gain correction feature enabled. The codec is also configured to filter the audio signal using first order IIR filter and 5 BiQuad filters to improve the audio quality. 
+Audio Codec AIC3204 is configured, through the I2C interface , to sample the audio signal at 12Khz on each of the two channels and configured to amplify the signal with automatic gain correction feature enabled. The codec is also configured to filter the audio signal using first order IIR filter and 5 Bi-quad filters to improve the audio quality. 
 
 The ECG analog front end ADS1292R is configured to sample ECG signal at 500 samples per second. ADS1292R is configured to generate a hardware interrupt to inform the DSP when the sample is ready so that DSP can read the data using SPI interface. 
 %The ECG data is again stored in a ping-pong buffer and the data is stored in the permanent storage with the same mechanism as mentioned earlier. 
@@ -96,5 +96,5 @@ Once the data has been saved to the micro SD card, it can be read directly by a 
 
 
 \nomenclature{RTOS}{ Real-Time Operating Systems }
-\nomenclature{ISR}{ Interrupt Service Routinue }
+\nomenclature{ISR}{ Interrupt Service Routine }
 
