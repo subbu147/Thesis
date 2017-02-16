@@ -13,7 +13,7 @@ The motivation for the study can be broken down into the following:
 \end{itemize}
 
 \section{Preliminary Experiments and 
-	System Characterization}
+	System Characterization}\label{utilization_result}
 The basic device functionality of the device is tested by simulating the required signals locally in our lab. The ECG signal is simulated using Precise Life SKX 2000 ECG simulator(Figure \ref{fig:ecg_sim}). The ECG is interfaced in 4 lead configuration using right arm(RA), left arm(LA), left leg(LL) and right leg(RL) drive leads. The body temperature is simulated using sodium acetate based reusable head pods. The acceleration of chest, paramedic log and breathing sound are manually simulated.
 \begin{figure}[h]
 	\centering
@@ -39,15 +39,21 @@ The basic device functionality of the device is tested by simulating the require
 
 We also measured the DSP utilization to have more insight into how long the system is in different operation mode mentioned above. We used the Code Composer studio's sophisticated profile clock to count the utilization of DSP \cite{clock_profile}. As mentioned in section \ref{firmware_arch} there are three main routines that run: main, DMA ISR and ECG ISR.
 The worst case execution time of DMA ISR (WCET\textsubscript{DMA}) routine is 3000 cycles to service the interrupt and it is executed for 24 times in a second. The DMA ISR utilization (U\textsubscript{DMA}) can be calculated as follows:
+
 \vspace*{-2mm}
- \[U_{DMA} = \frac{WCET_{DMA} * Number of Interrupts/Second}{
+
+\[U_{DMA} = \frac{WCET_{DMA} * Number of Interrupts/Second}{
 	F_{DSP}
 } * 100 \%\]
+
+
 \vspace*{-2mm}
  \[U_{DMA} = \frac{3000 * 24}{
 	100,000,000
 } * 100 \% = 0.72\% \]
-Where F\textsubscript{DSP} is the frequency at which the DSP is running, which is 100 MHz in our case. Similarly the main routine and the ECG ISR is profiled. The summary of the worst case utilization of these routines are presented in table \ref{table:WCET}.
+
+
+Where F\textsubscript{DSP} is the frequency at which the DSP is running, which is 100 MHz in our case. Similarly the main routine and the ECG ISR is profiled. The summary of the worst case utilization of these routines are presented in table \ref{table:WCET}. The total utilization of the DSP in active mode is roughly 20.92\%.
 \begin{table}[h]
 	\centering
 	\begin{tabular}{|l|l|}
