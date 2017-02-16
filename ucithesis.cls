@@ -186,7 +186,10 @@
 \addtocontents{lof}{\protect\raggedleft Page\\}
 \addtocontents{lot}{\protect\raggedleft Page\\}
 \addtocontents{loa}{\protect\raggedleft Page\\}
-
+\newcommand{\nomename}{
+\renewcommand{\nomname}{LIST OF ABBREVIATIONS}
+\printnomenclature[2in]
+}
 \newcommand{\preliminarypages}
 {
 	\pagenumbering{gobble}% Remove page numbers (and reset to 1), see http://tex.stackexchange.com/questions/54333/no-page-numbering
@@ -222,6 +225,9 @@
 	  \addcontentsline{toc}{chapter}{LIST OF ALGORITHMS}
 	  \listofalgorithms
 	\fi
+	\clearpage
+	\phantomsection
+	\nomename
 	\clearpage
 	\phantomsection
 	\addcontentsline{toc}{chapter}{ACKNOWLEDGMENTS}

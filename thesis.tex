@@ -9,6 +9,8 @@
 % Notes: Add short title to figures, sections, via square brackets,
 % e.g. \section[short]{long}.
 %
+
+\immediate\write18{pdflatex \jobname.tex}
 \documentclass[12pt,fleqn]{ucithesis}
 
 % A few common packages
@@ -32,6 +34,8 @@
 % plainpages=false fixes the "duplicate ignored" error with page counters
 % Set pdfborder to 0 0 0 to disable colored borders around PDF hyperlinks
 \usepackage[plainpages=false,pdfborder={0 0 0}]{hyperref}
+\usepackage{nomencl}
+\makenomenclature
 
 % Uncomment the following two lines to use the algorithm package,
 % which provides an algorithm environment similar to figure and table
