@@ -1,0 +1,63 @@
+\begin{thenomenclature} 
+
+ \nomgroup{A}
+
+  \item [{ADC}]\begingroup  Analog to Digital Converter \nomeqref {3.0}
+		\nompageref{26}
+  \item [{AGC}]\begingroup  Automatic Gain Control \nomeqref {3.0}
+		\nompageref{26}
+  \item [{AIC}]\begingroup  Analog Interface Chip \nomeqref {3.0}
+		\nompageref{26}
+  \item [{CODEC}]\begingroup   Coder Decoder \nomeqref {2.0}
+		\nompageref{16}
+  \item [{DMA}]\begingroup  Direct Memory Access \nomeqref {3.0}
+		\nompageref{26}
+  \item [{DSP}]\begingroup   Digital Signal Processor \nomeqref {2.0}
+		\nompageref{16}
+  \item [{DVFS}]\begingroup  Dynamic Voltage and Frequency Scaling \nomeqref {5.0}
+		\nompageref{58}
+  \item [{ECG}]\begingroup  Electrocardiogram\nomeqref {1.0}
+		\nompageref{2}
+  \item [{EMS}]\begingroup  Emergency Medical Services\nomeqref {1.0}
+		\nompageref{2}
+  \item [{FAT}]\begingroup  File Allocation Table \nomeqref {5.0}
+		\nompageref{58}
+  \item [{FIR}]\begingroup  Finite Impulse  Response \nomeqref {3.0}
+		\nompageref{26}
+  \item [{GPIO}]\begingroup  General Purpose Input Output \nomeqref {5.0}
+		\nompageref{58}
+  \item [{I2C}]\begingroup  Inter Integrated Circuit \nomeqref {3.0}
+		\nompageref{26}
+  \item [{I2S}]\begingroup  Inter-IC Sound \nomeqref {3.0}
+		\nompageref{26}
+  \item [{IIR}]\begingroup  Infinite Impulse  Response \nomeqref {3.0}
+		\nompageref{26}
+  \item [{ISR}]\begingroup  Interrupt Service Routinue \nomeqref {4.0}
+		\nompageref{35}
+  \item [{LDO}]\begingroup  Low DropOut \nomeqref {3.0}\nompageref{26}
+  \item [{MCU}]\begingroup  Micro controller Unit \nomeqref {5.0}
+		\nompageref{58}
+  \item [{MMC}]\begingroup  Multi Media Card \nomeqref {3.0}
+		\nompageref{26}
+  \item [{NTFS}]\begingroup  New Technology File System \nomeqref {5.0}
+		\nompageref{58}
+  \item [{PLL}]\begingroup  Phase Locked Loop \nomeqref {3.0}
+		\nompageref{26}
+  \item [{RTC}]\begingroup  Real-Time Clock \nomeqref {3.0}
+		\nompageref{26}
+  \item [{RTOS}]\begingroup  Real-Time Operating Systems \nomeqref {4.0}
+		\nompageref{35}
+  \item [{SAR}]\begingroup  Successive Approximation Register \nomeqref {3.0}
+		\nompageref{26}
+  \item [{SD}]\begingroup  Secure Digital \nomeqref {2.0}
+		\nompageref{16}
+  \item [{SDHC}]\begingroup   Secure Digital High Capacity \nomeqref {2.0}
+		\nompageref{16}
+  \item [{SPI}]\begingroup  Serial Peripheral Interface \nomeqref {3.0}
+		\nompageref{26}
+  \item [{UART}]\begingroup  (Universal Asynchronous Receiver/Transmitter \nomeqref {3.0}
+		\nompageref{26}
+  \item [{USB}]\begingroup  Universal Serial Bus \nomeqref {3.0}
+		\nompageref{26}
+
+\end{thenomenclature}

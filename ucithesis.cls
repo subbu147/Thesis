@@ -147,7 +147,7 @@
 		\textbf{\Large ACKNOWLEDGMENTS}
 	\end{center}
 	\parskip 12pt
-	\parindent 0pt
+	\parindent 20pt
 	\doublespacing
 	\Acknowledgments
 	\clearpage
