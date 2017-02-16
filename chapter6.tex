@@ -21,7 +21,7 @@ The basic device functionality of the device is tested by simulating the require
 	\caption{Prototype Test Environment\label{fig:sim_test}}
 \end{figure}
 
-\hspace{10mm}The system is tested with the firmware that incorporated the techniques mentioned in the previous chapter. In order to determine the power dissipation, the relative contribution of the different parts of the system needs to be considered. First, the idle mode current of the system was measured to be 22 mA. The environment temperature sensor, ECG front end chip and the accelerometer are powered directly from the battery. They are not controlled by the DSP, so the state of the DSP does not affect their power consumption. These components always contribute towards the current drawn by the system irrespective of the state of DSP. The average current drawn by the system under different modes of operation are shown in table\ref{table:current_drawn}. The average current drawn by the system with all the sensors and DSP (running at 100MHz) being active was measured to be 38.64 mA. The average current drawn when writing to the SD card while all the components of the system are active was measured to be 48 mA. The current drawn by the system was measured using INA231 evaluation module \cite{INA231}, which samples the current drawn by the system every 140 $\mu$S and logs the data.
+The system is tested with the firmware that incorporated the techniques mentioned in the previous chapter. In order to determine the power dissipation, the relative contribution of the different parts of the system needs to be considered. First, the idle mode current of the system was measured to be 22 mA. The environment temperature sensor, ECG front end chip and the accelerometer are powered directly from the battery. They are not controlled by the DSP, so the state of the DSP does not affect their power consumption. These components always contribute towards the current drawn by the system irrespective of the state of DSP. The average current drawn by the system under different modes of operation are shown in table\ref{table:current_drawn}. The average current drawn by the system with all the sensors and DSP (running at 100MHz) being active was measured to be 38.64 mA. The average current drawn when writing to the SD card while all the components of the system are active was measured to be 48 mA. The current drawn by the system was measured using INA231 evaluation module \cite{INA231}, which samples the current drawn by the system every 140 $\mu$S and logs the data.
 \begin{table}[h]
 	\centering
 	\begin{tabular}{|l|l|}
@@ -76,7 +76,7 @@ Where F\textsubscript{DSP} is the frequency at which the DSP is running, which i
  
  \[ 38.64 mA* \frac{20.924}{100} + 22 mA * \frac{79.076}{100}  = 25.481 mA\] 
  
-\hspace{10mm}The average current drawn by the system sums up to approximately 26.201 mA. With this rate the system should be able to run for 9 - 10 hours before recharging the battery. The acquired data was verfied by primarily reconstructing the signal and confirm if the amount of samples of each signal is equivalent to the test duration. This ensures the correctness of the process of data recording. The validity of the data was verified manually from playing back the signals and validating if the reflected the conditions during the test.
+The average current drawn by the system sums up to approximately 26.201 mA. With this rate the system should be able to run for 9 - 10 hours before recharging the battery. The acquired data was verfied by primarily reconstructing the signal and confirm if the amount of samples of each signal is equivalent to the test duration. This ensures the correctness of the process of data recording. The validity of the data was verified manually from playing back the signals and validating if the reflected the conditions during the test.
 \section{Clinical Test, Setup and Protocol}
 
 \subsection{Mannequin-based Patient Simulation}
@@ -90,7 +90,7 @@ Among the functions that these mannequin-based simulators can replicate are:
 	\item Real-time display of electronically monitored information (e.g. ECG, oxygen saturation, etc.)	
 \end{itemize}
 
-\hspace{10mm}Not only are these created in their “normal” manifestation, but all the elements of a large variety of abnormal conditions can be created such as (the list is almost endless) heart attack, severe allergic reaction, breathing difficulties, sepsis (“blood poisoning”), severe abnormalities of sugar metabolism etc.
+Not only are these created in their “normal” manifestation, but all the elements of a large variety of abnormal conditions can be created such as (the list is almost endless) heart attack, severe allergic reaction, breathing difficulties, sepsis (“blood poisoning”), severe abnormalities of sugar metabolism etc.
 
 \subsection{Test Protocol}
 The test was done with the BlueBox device placed on the Mannequin's chest. The Mannequin wore the four electrode model in a lead II configuration. The body temperature sensor is worn near the mannequin's neck. The contact mirophone to record the respiration sound is placed on the mannequin's abdomen. The environment microphone to record paramedic's comments is on the top of the device. As the accelerometer is on board, it can measure the chest rise of the mannequin. The on-board temperature sensor can measure environment temperature. The preliminary tests were conducted for different time duration ranging from 15 minutes to 2 hours. The tests were conducted under normal conditions and variety of abnormal conditions like heart attack, severe allergic reaction, breathing difficulties etc. The device is switched on using a button during the beginning of th experiment and after the test duration is completed, the data is imported into the computer to verify if the signal reflected the test conditions. The lab researchers and doctors on the IRB are required to be present for the duration of the test. 
@@ -5896,7 +5896,7 @@ coordinates {
 \end{axis}
 \end{tikzpicture}\label{fig:btemp_res}
 
-\hspace{10mm}The environment temperature is evaluated by simultaneously measuring the environment temperature using a standard device and comparing their values. This comparison confirmed the reliability of it. 
+The environment temperature is evaluated by simultaneously measuring the environment temperature using a standard device and comparing their values. This comparison confirmed the reliability of it. 
 The two channels of audio acquired are analyzed by playing it back and manually verifying the quality. The analysis concluded that paramedic's log audio signal carries the required information along with some noise. It requires a proper post processing in order to remove noise. The contact microphone was sensitive to the paramedic's logs and it kind of made the breathing sound feeble. A microphone or a sensor that could be sensitive to the respiration and not sensitive to the atmospheric noise to be developed in order to get the required respiration information.
 
 
