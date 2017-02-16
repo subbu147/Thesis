@@ -1,15 +1,15 @@
 \chapter{BlueBox }
 
-The previous chapter described the motivation and objective for a emergency monitoring device. This chapter will discuss the design consideration for implementing such a system. 
-Section \ref{overview} Gives a short overview about the BlueBox system and the signal requirements that the system is designed to monitor and acquire. Relevant design decision and background is also described. 
+The previous chapter described the motivation and objective for a emergency monitoring device. This chapter will discuss the design consideration for implementing one. 
+Section \ref{overview} Gives a short overview about the BlueBox system and the requirements of the signal that the system is designed to monitor. Relevant design decision and background is also described. 
 Section \ref{signal requirements}. Elaborates more on the functional requirements of the system. 
 Section \ref{system requirements} Explains some of the design considerations, requirements, and constraints encountered in the design of BlueBox.
 
 \section{Overview}\label{overview}
 
-BlueBox project is very much concerned with providing a very efficient and easy-to-use wearable device with a short setup time while providing the required functionality to record all the required vitals and data. It could save paramedics a lot of their time which they can invest in providing care for patients. BlueBox as mentioned is a wearable, low-power and low cost device that is supposed to be of size 4 cm X 6cm size.
+BlueBox project is primarily focused on providing a very efficient and easy-to-use wearable device with a short setup time while providing the required functionality to record all the required vitals and data. It could save paramedics a lot of their time which they can invest in providing care for patients. BlueBox as mentioned is a wearable, low-power and low cost device that is supposed to be of size 4 cm X 6cm size.
 
-BlueBox records ECG, Body temperature, chest rise(using accelerometer sensors), environment temperature and has two microphones where one is a contact microphone to record the patient's breathing pattern and other is used by paramedics to log the patients condition. The functionality of BlueBox is to record all the data into a persistent storage in the device to be retrieved later for analysis and can be a good indicator understanding patients medical condition and patient's response to emergency treatments before providing further care. BlueBox device is used when patients are in transit to the hospital in an ambulance. The paramedic's logs and the vital signs are synchronized and these synchronized information can provide a better insight about the patients condition from the time of emergency. 
+BlueBox records ECG, Body temperature, chest rise (using accelerometer sensors), environment temperature and has two microphones where one is a contact microphone to record the patient's breathing pattern and other one is used by paramedics to log the patients condition. The functionality of BlueBox is to record all the data into a persistent storage in the device to be retrieved later for analysis and can be a good indicator understanding patients medical condition and patient's response to emergency treatments before providing further care. BlueBox device is used when patients are in transit to the hospital in an ambulance. The paramedic's logs and the vital signs are synchronized and these synchronized information can provide a better insight about the patients condition from the time of emergency. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Signal requirements}\label{signal requirements}
 \subsection{The Electrocardiogram (ECG)}
