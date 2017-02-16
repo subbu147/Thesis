@@ -1,9 +1,9 @@
-\chapter{Firmware Architecture}
+\chapter{Firmware Architecture}\label{firmware_arch}
 
 Chapter 4 explains the firmware architecture of the BlueBox system and describes its core functionalities. This chapter also talks about importing and visualizing the acquired data.
 
 \section{Overview}
-The firmware for the system is implemented in C and assembly using Code Composer Studio IDE. TI provides DSP/BIOS (in later versions called SYS/BIOS)  a real time operating system for their DSPs. These operating systems provides a wide range of system services to an embedded application such as preemptive multitasking, memory management and real-time analysis. The RTOS is feature rich and helps in quicker development and testing of firmware. But the very important drawback of using the RTOS is the trade-off of performance and controllability of the DSP for quicker and easier development. For a resource and power constrained application, it is required to squeeze out the performance from the system which requires the firmware to have complete control over the underlying hardware. Thus firmware for the system is implemented on baremetal using  C and using the chip support library (CSL) for C5515 provided by TI. 
+The firmware for the system is implemented in C and assembly using Code Composer Studio IDE. TI provides DSP/BIOS (in later versions called SYS/BIOS) a real time operating system for their DSPs. These operating systems provides a wide range of system services to an embedded application such as preemptive multitasking, memory management and real-time analysis. The RTOS is feature rich and helps in quicker development and testing of firmware. But the very important drawback of using the RTOS is the trade-off of performance and controllability of the DSP for quicker and easier development. For a resource and power constrained application, it is required to squeeze out the performance from the system which requires the firmware to have complete control over the underlying hardware. Thus firmware for the system is implemented on baremetal using C and using the chip support library (CSL) for C5515 provided by TI. 
 
 
 \vfill
@@ -25,26 +25,26 @@ Figure \ref{main} gives the overall flow of the firmware.
 \end{figure}
 
 \section{Initializing System}
-First thing the firmware does after boot-up is to initialize the clock by configuring the  phase locked loop(PLL) control registers. PLL is configured to generate a 100 MHz clock to tick the system. After the clocks have been set up, the multiplexed I/O pins are configured to function as a specific peripheral or a input/output pins. Then the clock and power to those I/O pins and peripherals are enabled. After the I/O pins are configured, the communication peripherals such as SPI, I2C and I2S are configured. Their mode of operation(master or slave), frequency of operation etc., are initialized and configured. DSP's I2S module is configured as the I2S master (master supplies bit clock and word clock) and the Audio codec AIC3204 is configured as the I2S slave. 
+First thing the firmware does after boot-up is to initialize the clock by configuring the phase locked loop(PLL) control registers. PLL is configured to generate a 100 MHz clock to tick the system. After the clocks have been set up, the multiplexed I/O pins are configured to function as a specific peripheral or a input/output pins. Then the clock and power to those I/O pins and peripherals are enabled. After the I/O pins are configured, the communication peripherals such as SPI, I2C and I2S are configured. Their mode of operation(master or slave), frequency of operation etc., are initialized and configured. DSP's I2S module is configured as the I2S master (master supplies bit clock and word clock) and the Audio codec AIC3204 is configured as the I2S slave. 
 
 \section{Initializing sensor}
 Audio Codec AIC3204 is configured, through the I2C interface , to sample the audio signal at 12Khz on each of the two channels and configured to amplify the signal with automatic gain correction feature enabled. The codec is also configured to filter the audio signal using first order IIR filter and 5 BiQuad filters to improve the audio quality. 
 
 \hspace{10mm}The ECG analog front end ADS1292R is configured to sample ECG signal at 500 samples per second. ADS1292R is configured to generate a hardware interrupt to inform the DSP when the sample is ready so that DSP can read the data using SPI interface. 
 %The ECG data is again stored in a ping-pong buffer and the data is stored in the permanent storage with the same mechanism as mentioned earlier. 
-The environment temperature sensor STS21 is configured to sample the temperature with a 11bit precision. This data is acquired by polling. For every 250 ECG interrupts the STS21 is polled once to collect the temperature data.  
-The Analog to Digital converters on board are configured to  sample the body temperature once for every 250 interrupt of ECG.
+The environment temperature sensor STS21 is configured to sample the temperature with a 11bit precision. This data is acquired by polling. For every 250 ECG interrupts the STS21 is polled once to collect the temperature data. 
+The Analog to Digital converters on board are configured to sample the body temperature once for every 250 interrupt of ECG.
 
 \section{Data Collection and storage}
-The firmware is designed for concurrent data acquisition using dedicated hardware resources for the signals of interest. These hardware resources can perform certain required but  very defined functionalities like data buffering, filtering and data moving  without the intervention of the DSP. These hardware accelerators requires the DSP to configure, for them to operate. The designed firmware is primarily preemption based where the DSP configures, assigns work, to the peripherals and hardware accelerators to concurrently acquire the signals. Upon completion of the assigned work , i.e data acquisition, these accelerators interrupts the DSP and the DSP configures DMA to write the collected data in the form of  audio and vitals pages (explained in section \ref{filesystem} ) into the SD card. These sequence of interrupts and services happens periodically to acquire and store the signals.
+The firmware is designed for concurrent data acquisition using dedicated hardware resources for the signals of interest. These hardware resources can perform certain required but very defined functionalities like data buffering, filtering and data moving without the intervention of the DSP. These hardware accelerators requires the DSP to configure, for them to operate. The designed firmware is primarily preemption based where the DSP configures, assigns work, to the peripherals and hardware accelerators to concurrently acquire the signals. Upon completion of the assigned work , i.e data acquisition, these accelerators interrupts the DSP and the DSP configures DMA to write the collected data in the form of audio and vitals pages (explained in section \ref{filesystem} ) into the SD card. These sequence of interrupts and services happens periodically to acquire and store the signals.
 
-  \begin{figure}[h]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale = 0.5 ]{dma_interrupt.JPG}
 	\caption{DMA Interrupt Service Routine\label{dma_isr}}
 \end{figure}
 
-\hspace{10mm} There are two non-maskable interrupts that preempts the DSP. One is the DMA interrupt, generated upon acquisition of audio signal of pre-configured size  and other one is the hardware interrupt  generated by the ECG front end signaling that the ECG data is ready. The flowchart \ref{dma_isr} and \ref{ecg_isr} gives the functionality of DMA interrupt service routine(ISR) and  the hardware interrupt ISR respectively. The ECG ISR is responsible of acquiring the available ECG data from the Analog front end and also for acquiring the body temperature, environment temperature and accelerometer data.
+\hspace{10mm} There are two non-maskable interrupts that preempts the DSP. One is the DMA interrupt, generated upon acquisition of audio signal of pre-configured size and other one is the hardware interrupt generated by the ECG front end signaling that the ECG data is ready. The flowchart \ref{dma_isr} and \ref{ecg_isr} gives the functionality of DMA interrupt service routine(ISR) and the hardware interrupt ISR respectively. The ECG ISR is responsible of acquiring the available ECG data from the Analog front end and also for acquiring the body temperature, environment temperature and accelerometer data.
 
  
  \begin{figure}[h]
@@ -61,15 +61,15 @@ The firmware is designed for concurrent data acquisition using dedicated hardwar
  \end{figure} 
 
 
-  \hspace{10mm}The DMA is configured to collect the audio signal from the I2S peripheral and cache it in a buffer. The I2S receive event triggers the DMA to collect the audio signal. When the DMA fills up the allocated buffer it interrupts the DSP and DSP initiates the SD card write using another available DMA channel and it takes care of the further action. The system continues acquiring audio signals even while writing data into the SD card. This is done through using DMA in ping-pong mode. Figure \ref{ping_pong} shows the ping pong operation mode.
-  \begin{figure}[h]
+ \hspace{10mm}The DMA is configured to collect the audio signal from the I2S peripheral and cache it in a buffer. The I2S receive event triggers the DMA to collect the audio signal. When the DMA fills up the allocated buffer it interrupts the DSP and DSP initiates the SD card write using another available DMA channel and it takes care of the further action. The system continues acquiring audio signals even while writing data into the SD card. This is done through using DMA in ping-pong mode. Figure \ref{ping_pong} shows the ping pong operation mode.
+ \begin{figure}[h]
  	\centering
  	\includegraphics[scale = 0.5 ]{ping_pong.JPG}
  	\caption{Ping-Pong Mode for DMA Data Transfer. \cite{dma}\label{ping_pong}}
  \end{figure}
  When the ping buffer data is being copied to the SD card , the DMA acquires the incoming data and fills it in the pong buffer. So DMA used in ping-pong mode enables the system to collect the audio signals and store the previously cached signal simultaneously. 
  
-  \hspace{10mm}As mentioned earlier the measurement of temperature signal is triggered for every 500 interrupts of ECG. This adds a overhead of checking if the interrupt count every time ECG interrupt is serviced. The measurement of temperature within the context of ECG interrupt increases the worst case execution time of the ISR which is not preferred in general for typical application. One could argue that the system could have used a timer and generate a timer interrupt every one second and trigger the temperature measurement instead of tightly coupling it with the ECG ISR. The reason for not going with this approach is the cost in terms of power for running a dedicated timer for the temperature measurement. As long as the tasks could be finished on available clock cycles without disturbing other functionality of the system, it is fine even if the worst case execution time of the ISR increases.
+ \hspace{10mm}As mentioned earlier the measurement of temperature signal is triggered for every 500 interrupts of ECG. This adds a overhead of checking if the interrupt count every time ECG interrupt is serviced. The measurement of temperature within the context of ECG interrupt increases the worst case execution time of the ISR which is not preferred in general for typical application. One could argue that the system could have used a timer and generate a timer interrupt every one second and trigger the temperature measurement instead of tightly coupling it with the ECG ISR. The reason for not going with this approach is the cost in terms of power for running a dedicated timer for the temperature measurement. As long as the tasks could be finished on available clock cycles without disturbing other functionality of the system, it is fine even if the worst case execution time of the ISR increases.
  \begin{figure}[h]
  	\centering
  	\includegraphics[scale = 0.5 ]{record_dataflow.JPG}
@@ -82,7 +82,7 @@ The firmware is designed for concurrent data acquisition using dedicated hardwar
 	\caption{Flow of data during import \label{play_dataflow}}
 \end{figure}
 \subsection{Importing the Data}
-Once the data has been saved to the micro SD card, it can be read directly by a computer. A custom file system is used to store the data, so it can not be directly recognized on a computer. A filesystem driver for the custom filesystem is developed in python, which could parse the data in the SD card and create files of each of the signals. These files are read by a MATLAB script that does post processing and generates data vectors corresponding to each signal. For example in case of body temperature sensor, the data in the file is the raw ADC values, the calibration details of the body temperature is embedded into MATLAB code, so it does convert raw ADC temperature  data into a meaningful value through the calibration information.  
+Once the data has been saved to the micro SD card, it can be read directly by a computer. A custom file system is used to store the data, so it can not be directly recognized on a computer. A filesystem driver for the custom filesystem is developed in python, which could parse the data in the SD card and create files of each of the signals. These files are read by a MATLAB script that does post processing and generates data vectors corresponding to each signal. For example in case of body temperature sensor, the data in the file is the raw ADC values, the calibration details of the body temperature is embedded into MATLAB code, so it does convert raw ADC temperature data into a meaningful value through the calibration information. 
 
 
 

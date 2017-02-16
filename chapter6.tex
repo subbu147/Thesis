@@ -14,7 +14,6 @@ The motivation for the study can be broken down into the following:
 
 \section{Preliminary Experiments and 
 	System Characterization}
-\subsection{Setup}
 The basic device functionality of the device is tested by simulating the required signals locally in our lab. The ECG signal is simulated using Precise Life SKX 2000 ECG simulator(Figure \ref{fig:ecg_sim}). The ECG is interfaced in 4 lead configuration using right arm(RA), left arm(LA), left leg(LL) and right leg(RL) drive leads. The body temperature is simulated using sodium acetate based reusable head pods. The acceleration of chest, paramedic log and breathing sound are manually simulated.
 \begin{figure}[h]
 	\centering
@@ -22,24 +21,57 @@ The basic device functionality of the device is tested by simulating the require
 	\caption{ECG Simulator\label{fig:ecg_sim}}
 \end{figure}
 
-\hspace{10mm}The system is tested with the firmware that incorporated the techniques mentioned in the previous chapter. In order to determine the  power dissipation, the relative contribution of the different parts of the system needs to be considered. First, the idle mode current of the system was measured to be 22 mA. The environment temperature sensor, ECG front end chip and the accelerometer are  powered directly from the battery. They are not controlled by the DSP, so the state of the DSP does not affect their power consumption. These components contribute to idle mode current consumption. Then the average current of the system with all the sensors and DSP (running at 100MHz) being active was measured to be 38.64 mA. The average current drawn when writing to the SD card while all the components of the system are active was measured to be 48 mA. The current drawn by the system was measured using INA231 evaluation module, which samples the current drawn by the system  every 140 uS and logs the data. This data was used for the calculation.
+\hspace{10mm}The system is tested with the firmware that incorporated the techniques mentioned in the previous chapter. In order to determine the power dissipation, the relative contribution of the different parts of the system needs to be considered. First, the idle mode current of the system was measured to be 22 mA. The environment temperature sensor, ECG front end chip and the accelerometer are powered directly from the battery. They are not controlled by the DSP, so the state of the DSP does not affect their power consumption. These components always contribute towards the current drawn by the system irrespective of the state of DSP. The average current drawn by the system under different modes of operation are shown in table\ref{table:current_drawn}. The average current drawn by the system with all the sensors and DSP (running at 100MHz) being active was measured to be 38.64 mA. The average current drawn when writing to the SD card while all the components of the system are active was measured to be 48 mA. The current drawn by the system was measured using INA231 evaluation module \cite{INA231}, which samples the current drawn by the system every 140 $\mu$S and logs the data.
 \begin{table}[h]
 	\centering
 	\begin{tabular}{|l|l|}
 		\hline
-		$Operation$ & $Current$\\
+		Operation & Current\\
 		\hline
-		Idle &  22 mA\\
-		Data Acquisition &  38.64\\
+		Idle & 22 mA\\
+		Data Acquisition & 38.64 mA\\
 		Micro SD write & 48 mA \\
 		\hline
 	\end{tabular}
 	\caption{Current drawn for different operation mode.}
-	\label{table:ecg}
+	\label{table:current_drawn}
 \end{table}
 
-\hspace{10mm}The BlueBox was tested for different time duration ranging from 15 mins to 4 hours. The average current consumption of the system during the test was measured to be approximately 50 mA. With this rate the system should be able to run for 5-6 hours. The acquired data was verfied by primarily reconstructing the signal and confirm if the amount of samples of each signal is equivalent to the test duration. This ensures the correctness of the process of data recording. The validity of the data was verified manually from playing back the signals and validating if the reflected the conditions during the test.
-\section{Clinical test setup and protocol}
+We also measured the DSP utilization to have more insight into how long the system is in different operation mode mentioned above. We used the Code Composer studio's sophisticated profile clock to count the utilization of DSP \cite{clock_profile}. As mentioned in section \ref{firmware_arch} there are three main routines that run: main, DMA ISR and ECG ISR.
+The worst case execution time of DMA ISR (WCET\textsubscript{DMA}) routine is 3000 cycles to service the interrupt and it is executed for 24 times in a second. The DMA ISR utilization (U\textsubscript{DMA}) can be calculated as follows:
+\vspace*{-2mm}
+ \[U_{DMA} = \frac{WCET_{DMA} * Number of Interrupts/Second}{
+	F_{DSP}
+} * 100 \%\]
+\vspace*{-2mm}
+ \[U_{DMA} = \frac{3000 * 24}{
+	100,000,000
+} * 100 \% = 0.72\% \]
+Where F\textsubscript{DSP} is the frequency at which the DSP is running, which is 100 MHz in our case. Similarly the main routine and the ECG ISR is profiled. The summary of the worst case utilization of these routines are presented in table \ref{table:WCET}.
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|}
+		\hline
+		Routinue & Utilization\\
+		\hline
+		Main & 18\%\\
+		DMA ISR & 0.72\%\\
+		ECG ISR & 2.204\% \\
+		\hline
+	\end{tabular}
+	\caption{Current drawn for different operation mode.}
+	\label{table:WCET}
+\end{table}
+ 
+ The Storage utilization with the custom filesystem is computed to be 1.5\%. The worst case contribution of storage towards the average current drawn by the system is 
+ \[ 48 mA* \frac{1.5}{100} = 0.72 mA \]
+ 
+ The average current drawn by the system considering during the idle and active mode:
+ 
+ \[ 38.64 mA* \frac{20.924}{100} + 22 mA * \frac{79.076}{100}  = 25.481 mA\] 
+ 
+\hspace{10mm}The average current drawn by the system sums up to approximately 26.201 mA. With this rate the system should be able to run for 9 - 10 hours before recharging the battery. The acquired data was verfied by primarily reconstructing the signal and confirm if the amount of samples of each signal is equivalent to the test duration. This ensures the correctness of the process of data recording. The validity of the data was verified manually from playing back the signals and validating if the reflected the conditions during the test.
+\section{Clinical Test, Setup and Protocol}
 
 \subsection{Mannequin-based Patient Simulation}
 BlueBox initial clinical test is done with a Mannequin-based patient simulation environment.
@@ -52,7 +84,7 @@ Among the functions that these mannequin-based simulators can replicate are:
 	\item Real-time display of electronically monitored information (e.g. ECG, oxygen saturation, etc.)	
 \end{itemize}
 
-\hspace{10mm}Not only are these created in their “normal” manifestation, but all the elements of a large variety of abnormal conditions can be created such as (the list is almost endless) heart attack, severe allergic reaction, breathing difficulties, sepsis (“blood poisoning”), severe abnormalities of sugar metabolism, etc.
+\hspace{10mm}Not only are these created in their “normal” manifestation, but all the elements of a large variety of abnormal conditions can be created such as (the list is almost endless) heart attack, severe allergic reaction, breathing difficulties, sepsis (“blood poisoning”), severe abnormalities of sugar metabolism etc.
 
 \subsection{Test Protocol}
 The test was done with the BlueBox device placed on the Mannequin's chest. The Mannequin wore the four electrode model in a lead II configuration. The body temperature sensor is worn near the mannequin's neck. The contact mirophone to record the respiration sound is placed on the mannequin's abdomen. The environment microphone to record paramedic's comments is on the top of the device. As the accelerometer is on board, it can measure the chest rise of the mannequin. The on-board temperature sensor can measure environment temperature. The preliminary tests were conducted for different time duration ranging from 15 minutes to 2 hours. The tests were conducted under normal conditions and variety of abnormal conditions like heart attack, severe allergic reaction, breathing difficulties etc. The device is switched on using a button during the beginning of th experiment and after the test duration is completed, the data is imported into the computer to verify if the signal reflected the test conditions. The lab researchers and doctors on the IRB are required to be present for the duration of the test. 
