@@ -1,26 +1,60 @@
 \chapter{BlueBox }
 
-The previous chapter described the motivation and objective for a emergency monitoring device. This chapter will discuss the design consideration for implementing one. 
-Section \ref{overview} Gives a short overview about the BlueBox system and the requirements of the signal that the system is designed to monitor. Relevant design decision and background is also described. 
-Section \ref{signal requirements}. Elaborates more on the functional requirements of the system. 
-Section \ref{system requirements} Explains some of the design considerations, requirements, and constraints encountered in the design of BlueBox.
+The previous chapter provided the motivation and objective for a
+emergency monitoring device. This chapter discusses the design
+considerations for implementing one.  Section \ref{overview} gives a
+short overview about the BlueBox system and the requirements of the
+signal that the system is designed to monitor. Relevant design
+decision and background are also described in Section \ref{signal
+requirements}.  Section \ref{system requirements} elaborates more on
+the functional requirements of the system by explaining some of the
+design considerations, requirements, and constraints encountered in
+the design of BlueBox.
 
 \section{Overview}\label{overview}
 
-BlueBox project is primarily focused on providing a very efficient and easy-to-use wearable device with a short setup time while providing the required functionality to record all the required vitals and data. It could save paramedics a lot of their time which they can invest in providing care for patients. BlueBox as mentioned is a wearable, low-power and low cost device that is supposed to be of size 4 cm X 6cm size.
+BlueBox project is primarily focused on providing a very efficient
+and easy-to-use wearable device with a short setup time while
+providing the required functionality to record all the required
+vitals and data. It could save paramedics a lot of their time which
+they can invest in providing care for patients. BlueBox as mentioned
+is a wearable, low-power and low cost device that is supposed to be
+of size 4 cm $\times$ 6cm.
 
-BlueBox records ECG, Body temperature, chest rise (using accelerometer sensors), environment temperature and has two microphones where one is a contact microphone to record the patient's breathing pattern and other one is used by paramedics to log the patients condition. The functionality of BlueBox is to record all the data into a persistent storage in the device to be retrieved later for analysis and can be a good indicator understanding patients medical condition and patient's response to emergency treatments before providing further care. BlueBox device is used when patients are in transit to the hospital in an ambulance. The paramedic's logs and the vital signs are synchronized and these synchronized information can provide a better insight about the patients condition from the time of emergency. 
+BlueBox records ECG, Body temperature, chest rise (using
+accelerometer sensors), and environment temperature. It has two
+microphones where one is a contact microphone to record the patient's
+breathing pattern and the other is used by paramedics to log the
+patients condition. The functionality of BlueBox is to record all the
+data into a persistent storage in the device to be retrieved later
+for analysis and can be a good indicator for understanding the
+patient's medical condition and response to emergency treatments
+before providing further care.  BlueBox device can be used when
+patients are in transit to the hospital in an ambulance or while in
+the emergency room. The paramedic's logs and the vital signs are
+synchronized, and such synchronized data streams can provide
+potentially yield insight about the patients condition from the time
+of emergency. 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Signal requirements}\label{signal requirements}
 \subsection{The Electrocardiogram (ECG)}
-The ECG has become a routine part of any complete medical evaluation and has been used as a diagnostic 
-test since its discovery over 70 years ago \cite{ecg}. Because electricity is conducted through 
-the heart muscle (known as the myocardium), many (but not all) types of damage 
-to the heart tissue can be detected with an ECG. The ECG waveform allows one to 
-infer information about electrical activity associated with different aspects of a heart 
-beat and is therefore of particular value for assessing an individual's health. A summary of the electrical specifications relating to ECG quality is presented in \ref{table:ecg}.
+
+The ECG has become a routine part of any complete medical evaluation
+and has been used as a diagnostic test since its discovery over 70
+years ago \cite{ecg}. Because electricity is conducted through the
+heart muscle (known as the myocardium), many (but not all) types of
+damage to the heart tissue can be detected with an ECG. The ECG
+waveform allows one to infer information about electrical activity
+associated with different aspects of a heart beat and is therefore of
+particular value for assessing an individual's health. A summary of
+the electrical specifications relating to ECG quality is presented in
+Table \ref{table:ecg}.
 
 \begin{table}
+  \caption{ECG signal requirements.}
+  \label{table:ecg}
   \centering
   \begin{tabular}{|l|l|l|}
     \hline
@@ -32,29 +66,46 @@ beat and is therefore of particular value for assessing an individual's health. 
     Resolution & 8 bits/sample & 16 bits/sample \\
     \hline
   \end{tabular}
-  \caption{ECG signal requirements.}
-  \label{table:ecg}
 \end{table}
 
 \subsection{Accelerometer}
-Signal requirements for the accelerometer are not as constrained as that of the ECG. The most important considerations are the acceleration range, resolution, and sample rate.A $\pm 4g$ range is sufficient to cover the acceleration generated by individuals \cite{wearable_ecg}. A summary of the specification relating to accelerometer is presented in Table \ref{table:acc}.
-\begin{table}[h]
+
+Signal requirements for the accelerometer are not as constrained as
+that of the ECG. The most important considerations are the
+acceleration range, resolution, and sample rate.A $\pm 4$~g range is
+sufficient to cover the acceleration generated by individuals
+\cite{wearable_ecg}. A summary of the specification relating to
+accelerometer is presented in Table \ref{table:acc}.
+
+\begin{table}
+	\caption{Accelerometer signal requirements.}
+	\label{table:acc}
 	\centering
-	\begin{tabular}{|l |l|l|}
+	\begin{tabular}{|l |c|c|}
 		\hline
 		Specification & Minimum & Target \\
 		\hline
-		Range & $\pm 4g$ & $\pm 8g$ \\
+		Range & $\pm 4$~g & $\pm 8$~g \\
 		Resolution & 8 bits & 16 bits\\
 		Sampling rate & 4 Hz & 12 Hz \\
 		\hline
 	\end{tabular}
-	\caption{Accelerometer signal requirements.}
-	\label{table:acc}
 \end{table}
 
 \subsection{Temperature}
-The continuous monitoring of patients body temperature is often necessary during induced-hypothermia and general anesthesia, or when employed in the care of infants and premature babies. Intensive care units along with emergency rooms have also adopted patient temperature as a part of vital sign monitoring procedures. There are two different temperature, body temperature and the environment temperature, to be measured and their requirement is driven by its use case. They still share some common considerations like range being measured, resolution and accuracy / reliability. Table \ref{table:tmp} summarizes the specification relating to the temperature. 
+
+The continuous monitoring of patients body temperature is often
+necessary during induced-hypothermia and general anesthesia, or when
+employed in the care of infants and premature babies. Intensive care
+units along with emergency rooms have also adopted patient
+temperature as a part of vital sign monitoring procedures. There are
+two different temperature, body temperature and the environment
+temperature, to be measured and their requirement is driven by its
+use case. They still share some common considerations like range
+being measured, resolution and accuracy / reliability. Table
+\ref{table:tmp} summarizes the specification relating to the
+temperature. 
+
 \begin{table}[h]
 	\centering
 	\begin{tabular}{|l|l|l|}
