@@ -210,6 +210,13 @@ such a way that the DSP expose enough control to the firmware,
 \begin{cmtPai}
 	(2/17/2017) I don't understand what you mean here
 \end{cmtPai}
+\begin{cmtSMS}
+	(2/18/2017) I actually wanted to say that the firmware should be able to have good control the DSP (Enabling/disabling clocks , shutting down unused peripherals etc.,). Hardware system is to be designed in such a way that , all the sensors \& the components can be controlled by the firmware.
+	Ex: In the BlueBox hardware system, from the firmware we can control only the Bias voltage of one of the microphone , the other one is always fixed.
+	From the firmware, through the use of GPIO, we can switch on/off the body temperature sensor, reset the AIC3204, ADS1292 etc.,
+	Firmware should have extensive control over all the components.	
+	 
+\end{cmtSMS}
 in order to perform extensive resource and power management. The
 low-power DSP must have enough communication resource to communicate
 with the sensors (accelerometer, SD card, audio codec, etc.),
