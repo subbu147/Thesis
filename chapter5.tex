@@ -1,7 +1,18 @@
 \chapter{Low-Power Firmware Design Techniques}
 
-Chapter 5 gives a background on general sources of power consumption in a digital system and describes some of the primitive techniques used for power management. Section 5.4 describes the design flow of power management techniques for BlueBox system. Section 5.5 to 5.7 explains the details of those techniques.  
-\section{Background} In order to design successfully for low power consumption, it is important to have a through understanding of the sources of power dissipation, the factors that affect them and the methodologies and techniques that are available to achieve optimal results. 
+Chapter 5 first gives a background on general sources of power
+consumption in a digital system and describes some of the primitive
+techniques
+\begin{cmtPai}
+	(2/17/2017) by ``primitive'' do you mean simple, not developed?
+\end{cmtPai}
+used for power management. Section \ref{sec:designFlow} describes the design flow of
+power management techniques for BlueBox system. Section 5.5 to 5.7
+explains the details of those techniques.  
+
+\section{Background}
+
+In order to design successfully for low power consumption, it is important to have a through understanding of the sources of power dissipation, the factors that affect them and the methodologies and techniques that are available to achieve optimal results. 
 Throughout this chapter, we discuss about power consumption and methods for reducing it. Energy is the time integral of power; if power consumption is a constant, energy consumption is simply power multiplied by the time during which it is consumed. Reducing power consumption only saves energy if the time required to accomplish the task does not increase too much. The chapter presents the sources of power dissipation and describes the important low-power methodologies and power optimization techniques available. Low-power design can be applied on various abstracted levels, such as system level, architectural level and technological level. This chapter could as well be utilized as a quick review on low power design. 
 
 \section{Sources of power consumption}\label{src_pwr}
@@ -58,9 +69,26 @@ only power, not energy \cite{PowerAwareArchitecting}.
  gating is much more invasive than clock gating. While clock gating does not affect the functionality of the system, power gating does. It affects inter-block communication and, as mentioned before, adds time delays to safely enter and exit power gated modes \cite{LowPowerMethod}. 
  
  \section{Design flow}
+ \label{sec:designFlow}
  
- Design flow of any system constitutes of various level of abstraction. Abstraction reduces complexity and allow efficient design and implementation of complex systems. The aspect of the system that needs to be optimized helps in designing the various levels of abstraction. When a system is designed with the emphasis on power optimization, then the design must embody optimization at all levels of the design flow. In general the support for energy management needs to be incorporated at the system level and the architectural level. An important aspect of the design flow is the relation and feedback between the levels. Paul J.M Havinga et. al, have come up with three layers of abstraction: system, architecture and technology \cite{havinga, havinga2, havinga3}. Table \ref{table:abstraction} describes the abstraction level and related examples for energy reduction.
+The design flow of any system consist of design at various levels of
+abstraction. Abstraction hides complexity to enable more structured
+design and implementation of complex systems. The aspect of the
+system that needs to be optimized helps in designing the various
+levels of abstraction. When a system is designed with the emphasis on
+power optimization, then the design must embody optimization at all
+levels of the design flow. In general, the support for energy
+management needs to be incorporated at the system level and the
+architectural level. An important aspect of the design flow is the
+relation and feedback between the levels. Havinga et al has come up
+with three layers of abstraction: system, architecture, and
+technology \cite{havinga, havinga2, havinga3}. Table
+\ref{table:abstraction} describes the abstraction levels and related
+examples for energy reduction.
+`
  \begin{table}
+ 	\caption{Abstraction level and related example for energy reduction.}
+ 	\label{table:abstraction}
  	\centering
  	\begin{tabular}{|l|l|}
  		\hline
@@ -81,19 +109,44 @@ only power, not energy \cite{PowerAwareArchitecting}.
  		  & voltage control \\
  		\hline
  	\end{tabular}
- 	\caption{Abstraction level and related example for energy reduction.}
- 	\label{table:abstraction}
  \end{table}
 
 
-At the highest level the design decisions have the most influence. Therefore, the most effective design decisions derive from choosing and optimizing 
- architectures and algorithms at the highest levels. It has been demonstrated by several researchers [63] that system and architecture level design decisions can have dramatic impact on power consumption. However, when designing a system it is a problem to predict the consequences and effectiveness of high level design decisions because implementation details can only be accurately modeled or estimated at the technological 
- level and not at the higher levels of abstraction. Furthermore, the specific energy reduction techniques that are offered by the lower layers can be most effective only when the higher levels are aware of these techniques, know how to use them, and apply them.
+At the highest level, the design decisions have the most influence.
+Therefore, the most effective design decisions derive from choosing
+and optimizing architectures and algorithms at the highest levels. It
+has been demonstrated by several researchers [63]
+\begin{cmtPai}
+	(2/17/2017) what do you mean by [63]? citation?
+\end{cmtPai}
+that system- and architecture-level design decisions can have a great
+impact on power consumption. However, when designing a system it is a
+problem to predict the consequences and effectiveness of high-level
+design decisions because implementation details can only be
+accurately modeled or estimated at the technological level and not at
+the higher levels of abstraction. Furthermore, the specific energy
+reduction techniques that are offered by the lower layers can be most
+effective only when the higher levels are aware of these techniques,
+know how to use them, and apply them.
  
- 
-The above mentioned layers can be considered as vertical layers of any digital system. The BlueBox system could be broken down into three main subsystem as shown in figure \ref{table:sub-system} based on its application semantics: sensor, processor and storage subsystem. These sub-systems work together and are interdependent on each other for their functionalities. Each of these subsystem contains all three abstraction layers mentioned above. Our low-power design flow targets each of these three horizontal layers of subsystem individually and the interdependent vertical layers within them. It is interesting that effect on a single subsystem creates space for further power savings for its dependent subsystem. 
+The above-mentioned layers can be considered as vertical layers of
+any digital system. The BlueBox system could be broken down into
+three main subsystem as shown in \FIG{table:sub-system} based on its
+application semantics: sensor, processor, and storage subsystem.
+These sub-systems work together and are interdependent on each other
+for their functionalities. Each of these subsystems contains all
+three abstraction layers mentioned above. Our low-power design flow
+targets each of these three horizontal layers of the subsystems
+individually and the interdependent vertical layers within them. It
+is interesting that effect on a single subsystem creates space for
+further power savings for its dependent subsystem. 
+\begin{cmtPai}
+	(2/17/2017) I don't know if I understand the last sentence
+\end{cmtPai}
  
   \begin{table}
+ 	\caption{Sub-Systems of BlueBox}
+ 	\label{table:sub-system}
  	\centering
  	\begin{tabular}{|l|l|}
  		\hline
@@ -115,29 +168,74 @@ The above mentioned layers can be considered as vertical layers of any digital s
  		& EMIF \\
  		\hline
  	\end{tabular}
- 	\caption{Sub-Systems of BlueBox}
- 	\label{table:sub-system}
  \end{table}
  
  
-Our approach with this multi-dimensional design space offers us a large range of possible trade-offs. And our modeling of the system with horizontal and vertical layers made it fairly easy to think and work on power management. The following sections discusses our approach on minimizing power consumption in sensor, processor and storage subsystem.
+Our approach with this multi-dimensional design space offers us a
+large range of possible trade-offs. Also, our modeling of the system
+with horizontal and vertical layers made it fairly easy to think and
+work on power management. The following sections discuss our approach
+to minimizing power consumption in sensor, processor, and storage
+subsystems.
  
  \section{Power Management of Sensor sub-system}
  
- A sensor is a device that converts real world physical parameters into electrical signals that a computer can understand. They are the most important active part of the BlueBox system. As shown in table \ref{table:sub-system} BlueBox employs five different sensors. Most of which are performing active real time sensing. They also do have a processing capabilities embodied with them. They contribute to the significant amount of power consumed by the system. The first, and perhaps most direct, approach of our low power consumption design targets the sensor itself. BlueBox employs power mode management, smart sensing and computational offloading techniques to reduce the power consumption of the DSP. The following section describes the three simple techniques that enabled low power sensing.
+A sensor is a device that converts real-world physical parameters
+into electrical signals that a computer can understand. They are the
+most important active part of the BlueBox system. As shown in Table
+\ref{table:sub-system}, BlueBox employs five different sensors, most
+of which are performing active real-time sensing.
+\begin{cmtPai}
+	(2/17/2017) ``active sensing'' means the sensor actually emits a
+	signal and measure the reflected signal (e.g., radar). Is that what
+	you mean here? If so, is that really true?
+\end{cmtPai}
+
+They also do have a processing capabilities embodied with them. They
+contribute to the significant amount of power consumed by the system.
+The first, and perhaps most direct, approach of our low power
+consumption design targets the sensor itself. BlueBox employs power
+mode management, smart sensing, and computational offloading to
+reduce the power consumption of the DSP. The following subsections
+describe the three simple techniques that enabled low power sensing.
+
  \subsection{Sensor power mode management}
- Most of the sensors designed for low power consumption have one or more lower power states such as a shutdown mode or an extremely low-power operating mode \cite{lowpwrsensing}. In many instances, this types of sensor's operation is directly controlled by the firmware designer in the end application. It is also important to note that there is always a cost associated with the low power modes. The cost could be reduced performance, increased latency, delayed boot-up etc. And transition of modes consumes power too. So it is the application semantics that decides the best modes of operation and how often transition needs to be triggered. 
+
+Most of the sensors designed for low power consumption have one or
+more lower-power states such as a shutdown mode or an extremely
+low-power operating mode \cite{lowpwrsensing}. In many instances,
+this type of sensor operation is directly controlled by the firmware
+designer in the end application. It is also important to note that
+there is always a cost associated with the low-power modes.  The cost
+could be reduced performance, increased latency, delayed boot-up,
+etc. Also, transition of modes consumes power too. So, it is the
+application semantics that decides the best modes of operation and
+how often transitions need to be triggered. 
  
- 
- Considering the body temperature sensor (MA100) from BlueBox system. It is eventually a thermistor. The voltage drop across this thermistor is a value proportional to the body temperature. The simplified circuitry of MA100 can be seen in figure \ref{body_temp}.
- \begin{figure}[h]
+Considering the body temperature sensor (MA100) from BlueBox system.
+It is eventually
+\begin{cmtPai}
+	(2/27/2017) what do you mean ``eventually''?  doesn't sound like
+	the right word.
+\end{cmtPai}
+a thermistor. The voltage drop across this thermistor is a value
+proportional to the body temperature. The simplified circuitry of
+MA100 can be seen in \FIG{body_temp}.
+
+ \begin{figure}
  	\centering
- 	\includegraphics[scale = 0.5 ]{body_temp.JPG}
- 	\caption{Simplified version Body Temperature measurement circuitry\label{body_temp}}
+ 	\includegraphics[scale = 0.5 ]{body_temp}
+\caption{Simplified version Body Temperature measurement circuitry}
+\label{body_temp}
  \end{figure}
- The C5515 DSP supplies the reference voltage to the thermistor MA100. As body temperature is measured only twice in a second, the reference voltage could be supplied only during the measurement and can be turned off the rest of the time to save the power dissipated by the measurement circuit during the unused time.
+
+The C5515 DSP supplies the reference voltage to the thermistor MA100.
+As body temperature is measured only twice in a second, the reference
+voltage could be supplied only during the measurement and can be
+turned off the rest of the time to save the power dissipated by the
+measurement circuit during the unused time.
  
-From \ref{mpu9250_def} it can be noticed that the Accelerometer sensor(MPU9250) takes 30ms to wakeup from sleep and generate a valid accelerometer value. BlueBox cannot afford to spend this time inside the ISR. So it is a good idea to keep the MPU9250 under low-power accelerometer mode, which consumes 19.8 $\mu$A providing the required response time.
+From Section \ref{mpu9251_def}, it can be noticed that the Accelerometer sensor(MPU9250) takes 30ms to wakeup from sleep and generate a valid accelerometer value. BlueBox cannot afford to spend this time inside the ISR. So it is a good idea to keep the MPU9250 under low-power accelerometer mode, which consumes 19.8 $\mu$A providing the required response time.
  
  \subsection{Smart Sensing}
  Smart sensing is a method for achieving low power that uses integrated 'smart' digital logic in the sensor. "Smart Sensing" is the added digital capability which can be used to enable the sensor to perform its own internal power management or help reduce the power consumption of the system. This approach has been used in BlueBox through the smart capabilities of accelerometer.
