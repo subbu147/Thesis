@@ -235,61 +235,227 @@ voltage could be supplied only during the measurement and can be
 turned off the rest of the time to save the power dissipated by the
 measurement circuit during the unused time.
  
-From Section \ref{mpu9251_def}, it can be noticed that the Accelerometer sensor(MPU9250) takes 30ms to wakeup from sleep and generate a valid accelerometer value. BlueBox cannot afford to spend this time inside the ISR. So it is a good idea to keep the MPU9250 under low-power accelerometer mode, which consumes 19.8 $\mu$A providing the required response time.
+From Section \ref{mpu9250_def}, it can be noticed that the
+accelerometer sensor (MPU9250) takes 30~ms to wake up from sleep and
+generate a valid accelerometer value. BlueBox cannot afford to spend
+this time inside the ISR. So, it is a good idea to keep the MPU9250
+under low-power accelerometer mode, which consumes 19.8~$\mu$A
+providing the required response time.
  
  \subsection{Smart Sensing}
- Smart sensing is a method for achieving low power that uses integrated 'smart' digital logic in the sensor. "Smart Sensing" is the added digital capability which can be used to enable the sensor to perform its own internal power management or help reduce the power consumption of the system. This approach has been used in BlueBox through the smart capabilities of accelerometer.
+
+Smart sensing is a method for achieving low power that uses
+integrated `smart' digital logic in the sensor. ``Smart Sensing'' is
+the added digital capability that can be used to enable the sensor to
+perform its own internal power management or help reduce the power
+consumption of the system. This approach has been used in BlueBox
+through the smart capabilities of accelerometer.
  
- The sensor's embedded logic detects events and notifies the DSP over interrupt. Unlike the previous low-power method that has no power consumption at its lowest level, this one has a baseline power consumption, so it can automatically power itself on. With a higher frequency of use, a device with more internal intelligence eventually becomes more efficient. 
+The sensor's embedded logic detects events and notifies the DSP over
+interrupt. Unlike the previous low-power method that has no power
+consumption at its lowest level, this one has a baseline power
+consumption, so it can automatically power itself on. With a higher
+frequency of use, a device with more internal intelligence eventually
+becomes more efficient. 
  
-An example of such technique in the BlueBox, for reducing power consumption is the use of accelerometer’s smart first in, first out (FIFO) buffer. An 8-bit or 12-bit configurable 32-sample FIFO allows buffering of the data so a host system can power on the sensor and read the data at a slower rate. As a result, the DSP can be kept in a lower power state more of 
- the time, achieving lower power consumption for itself and lower duty cycle operation for the DSP whose power consumption is approximately ten times higher than the accelerometer’s power consumption. By reducing the DSP’s power on time by a very small amount, the entire system might still consumes less power even though the accelerometer consumes more power. The system-level advantages more than compensate for the slightly 
- higher power consumption in the sensor. 
+An example of such technique in the BlueBox, for reducing power
+consumption is the use of accelerometer’s smart first-in, first-out
+(FIFO) buffer. An 8-bit or 12-bit configurable 32-sample FIFO allows
+buffering of the data, so a host system can power on the sensor and
+read the data at a slower rate. As a result, the DSP can be kept in a
+lower-power state more of the time, achieving lower power consumption
+for itself and lower duty-cycle operation for the DSP whose power
+consumption is approximately ten times higher than that of the
+accelerometer. By reducing the DSP’s power-on time by a very small
+amount, the entire system might still consume less power even though
+the accelerometer consumes more power. The system-level advantages
+more than compensate for the slightly higher power consumption in the
+sensor. 
  
  \subsection{Computational offloading}
- In this third approach for low power sensing, the DSP utilizes the local computing capability of the sensor. Termed "local compute capability", this system level methodology can offload the computation from system application DSP. For example, a DSP that uses 100 to 1000 times as much power, a local sensor with the compute capability can perform the required computations and allow the DSP to go into lower power modes delivers a significant power savings at the system level, resulting in savings.  
+
+ In this third approach for low power sensing, the DSP utilizes the
+ local computing capability of the sensor. Termed ``local compute
+ capability,'' this system-level methodology can offload the
+ computation from system application DSP. For example, a DSP that
+ uses 100 to 1000 times as much power, a local sensor with the
+ compute capability can perform the required computations and allow
+ the DSP to go into lower-power modes delivers a significant power
+ savings at the system level.
  
-  \begin{figure}[h]
+  \begin{figure}
  	\centering
- 	\includegraphics[scale = 0.5 ]{AIC_processingBlock.JPG}
- 	\caption{Signal Processing blocks of Audio Codec. \cite{audiocodec} \label{AIC_processingBlock}}
+ 	\includegraphics[scale = 0.5 ]{AIC_processingBlock}
+ 	\caption{Signal Processing blocks of Audio Codec.  \cite{audiocodec}}
+\label{AIC_processingBlock}
  \end{figure}
  
-This design methodology is used in BlueBox to reduce the power consumption of audio data acquisition through the use of local compute capability of the Audio Codec. Audio signal captured through the electret microphones contains some noise with it. And is required to filter the signal to improve the audio quality and attenuate high frequency noises. The process of digital filtering at the DSP could be a good solution as the filter can be designed specific for the application and the signal of interest. But it consumes lots of computational bandwidth and power which is not very desirable for the BlueBox application. So BlueBox uses the signal processing support extended by the audio codec AIC3204 as shown in figure \ref{AIC_processingBlock}. The codec has a fixed number of filters with configurable coefficients. So this application specific filtering circuits in the codec would be more efficient, perform faster and consume significantly less energy than doing the same filtering process in the general purpose processor. Offloading the digital filtering computation to the codec saves a significant amount of computational bandwidth and power.
+This design methodology is used in BlueBox to reduce the power
+consumption of audio data acquisition through the use of local
+compute capability of the Audio Codec. Audio signal captured through
+the electret microphones contains some noise with it and is required
+to filter the signal to improve the audio quality and attenuate
+high-frequency noises. The process of digital filtering at the DSP
+could be a good solution as the filter can be designed specific for
+the application and the signal of interest. However, it consumes more
+computational bandwidth and power, which is not desirable for the
+BlueBox application. So, BlueBox uses the signal processing support
+extended by the audio codec AIC3204 as shown in
+\FIG{AIC_processingBlock}. The codec has a fixed number of filters
+with configurable coefficients. So, this application-specific
+filtering circuit in the codec would be more efficient, perform
+faster, and consume significantly less energy than doing the same
+filtering process in the general-purpose processor. Offloading the
+digital-filtering computation to the codec saves a significant amount
+of computational bandwidth and power.
  
 \section{Power Management of DSP subsystem }
 
-Selecting a processor is one of the most critical decisions when we are designing an embedded 
-system. This selection is based on the features required to satisfy the control functionality of the final product and the raw computing power needed to fulfill those system requirements. There are several points to be aware of when selecting a processor. The overall power consumption of a MCU is defined by its power consumption in different modes, typically active and standby (including sleep, idle, standby, etc.), and taking into account the power consumed to transition from one mode to another. 
+Selecting a processor is one of the most critical decisions when we
+are designing an embedded system. This selection is based on the
+features required to satisfy the control functionality of the final
+product and the raw computing power needed to fulfill those system
+requirements. There are several points to be aware of when selecting
+a processor. The overall power consumption of an MCU is defined by
+its power consumption in different modes, typically active and
+standby (including sleep, idle, standby, etc.), and taking into
+account the power consumed to transition from one mode to another. 
 
- Active power consumption by a processor is the power consumed when the processor is running. As almost all controllers are based upon CMOS logic, power is consumed primarily during the switching of transistors. The other major factor which determines the run time of the system is the standby power consumption. Most applications can spend significant amount of time in standby mode. Standby current is the sum of leakage current, current consumed by power management circuits, clocking systems, power regulators, RTC, IOs, interrupt controllers, and so on. It varies from controller to controller, based upon the particular features and peripherals supported in standby mode. The power consumed in standby mode is significantly very less than in active mode. So the basic idea is to put the processor into standby mode when ever it is possible and try to keep the processor idle as long as possible to reduce the power consumed by the processor. The following section discusses the techniques used in the BlueBox system to reduce the processor power consumption. 
+Active power consumption by a processor is the power consumed when
+the processor is running. As almost all controllers are based upon
+CMOS logic, power is consumed primarily during the switching of
+transistors. The other major factor that determines the run time of
+the system is the standby power consumption. Most applications can
+spend a significant amount of time in standby mode. Standby current
+is the sum of leakage current, current consumed by power management
+circuits, clocking systems, power regulators, RTC, I/Os, interrupt
+controllers, and so on. It varies from controller to controller,
+based upon the particular features and peripherals supported in
+standby mode. The power consumed in standby mode is significantly
+less than in active mode. So, the basic idea is to put the processor
+into standby mode whenever possible and try to keep the processor
+idle as long as possible to reduce the power consumed by the
+processor. The following section discusses the techniques used in the
+BlueBox system to reduce the processor power consumption. 
 
+Timing analysis is the first step towards the understanding of the
+processor functionality in terms of processor utilization
+\cite{sastra}. The processor utilization $U$ is defined as the total
+amount of time spent idle by the processor. 
 
- Timing analysis is the first step towards the understanding of the processor functionality in terms of processor utilization \cite{sastra}. The processor utilization 'U' is defined as the total amount of time spent idle by the processor. 
-\[ U = 100\% - (\% T_{idle}) \hspace{20mm} (1)\]
+\begin{align}
+	U &= 100\% - (\% T_\text{idle})
+\label{eq:idleUtil}
+\end{align}
 
- Idle time is the time during which processor does not do any useful work. Normally this is an infinite loop that spins the processor waiting for an event. The code composer studio IDE, which is used for firmware development, provides the timing analysis of the code execution in DSP. Once the average idle time is known, we can measure the active utilization when the system is under various states of loads using the equation (1). BlueBox employs Intelligent waiting, even reduction and intelligent peripheral shutdown techniques to reduce the power consumption of the DSP. The following sections explains each of the technique in detail. 
+where the idle time $T_\text{idle}$ is the time during which the
+processor does not do any useful work. Normally, this is a loop that
+spins the processor busy-waiting for an event. The Code Composer
+Studio IDE, which is used for firmware development, provides the
+timing analysis of the code execution in DSP. Once the average idle
+time is known, we can measure the active utilization when the system
+is under various states of loads using \EQ{eq:idleUtil}. BlueBox
+employs \emph{intelligent waiting}, \emph{event reduction}, and
+\emph{intelligent peripheral shutdown} techniques to reduce the power
+consumption of the DSP. The following sections explains each of the
+technique in detail. 
 
 \subsection{Intelligent Waiting}
-The TMS320C5515 DSP includes various run-time power modes that can be used to scale down power consumption. The most common of important is idle mode of operation, in which the instruction-executing portion of the processor core shuts down while all peripherals and interrupts remain powered and active. Idle mode consumes substantially less power than the processor is actively executing instructions. A key aspect of idle mode is that it requires little overhead to enter and exit, usually allowing it to be applied many times every millisecond. Anytime the DSP is spinning in a loop or blocked waiting for an event it should be placed into idle mode to conserve power. Since any interrupt can wake the DSP from idle mode, use of this mode enables the DSP to intelligently wait for events in the system. The BlueBox system is dependent on external interrupts generated by the ECG analog frontend and the audio codec through the I2S bus. From figure \ref{main} it can be seen that the main thread of the BlueBox goes to idle mode after writing the pages to SD card, if they are available. When an interrupt occurs, the DSP wakes up and interrupt is serviced. Then the DSP checks if any page is available to write and then goes back into the idle mode to save power. 
+
+The TMS320C5515 DSP includes various run-time power modes that can be
+used to scale down power consumption. The most common of important
+\begin{cmtPai}
+	(2/18/2017) huh? what does that mean?
+\end{cmtPai}
+is idle mode of operation, in which the instruction-executing portion
+of the processor core shuts down while all peripherals and interrupts
+remain powered-on and active. Idle mode consumes substantially less
+power than when the processor is actively executing instructions. A
+key aspect of idle mode is that it requires little overhead to enter
+and exit, usually allowing it to be applied many times every
+millisecond.  Anytime the DSP is spinning in a loop or blocked
+waiting for an event, it should be placed into idle mode to conserve
+power. Since any interrupt can wake the DSP from idle mode, use of
+this mode enables the DSP to intelligently wait for events in the
+system. The BlueBox system is dependent on external interrupts
+generated by the ECG analog frontend and the audio codec through the
+I2S bus. From \FIG{main}, it can be seen that the main thread of the
+BlueBox goes to idle mode after writing the pages to SD card, if they
+are available.  When an interrupt occurs, the DSP wakes up and
+invokes the interrupt service routine (ISR), which checks if any page
+is available to write and then goes back into idle mode to save
+power. 
 
 
-\subsection{Event reduction}
-Another important technique employed is the event reduction. Intelligent waiting enables the processor to enter its idle mode as often as possible, event reduction attempts to keep the processor in idle mode as long as possible. It is implemented by analyzing the application firmware code and system requirements to determine the effect of alteration of processing the interrupts. The interrupts associated with the BlueBox are periodic external interrupts that informs the processor to read an collect the data. There are totally 24000 audio interrupts generated every second by the audio codec. If the processor handles all the interrupts, it will not have suffient time to go to idle mode and have to be active all the time. This is where Direct Memory Access(DMA) comes into play to help the processor. Direct memory access (DMA) allows the processor to remain in idle mode for significant periods even while data is being sent to 
-or received from peripherals. DMA should be used in peripheral drivers whenever possible. The savings are quite impressive. The DMA employed with the audio codec reduces 24000 interrupts per second to 24 interrupt per second. Figure \ref{event_reduction} explains how the reduction is achieved.
- \begin{figure}[h]
+\subsection{Event Reduction}
+
+Another important technique employed is event reduction.  Whereas
+intelligent waiting enables the processor to enter its idle mode as
+often as possible, event reduction attempts to keep the processor in
+idle mode for as long as possible. It is implemented by analyzing the
+application firmware code and system requirements to determine the
+effect of alteration
+\begin{cmtPai}
+	(2/18/2017) ?? what do you mean ``alteration''?
+\end{cmtPai}
+of processing the interrupts. The interrupts associated with the
+BlueBox are periodic external interrupts to trigger the processor to
+read and collect the data. There are totally 24000 audio interrupts
+generated every second by the audio codec. If the processor handles
+all the interrupts, it will not have suffient time to go to idle mode
+and have to be active all the time. This is where Direct Memory
+Access (DMA) comes into play to help the processor.  DMA allows the
+processor to remain in idle mode for significant periods even while
+data is being sent to or received from peripherals. DMA should be
+used in peripheral drivers whenever possible. The savings are quite
+impressive. The DMA employed with the audio codec reduces 24000
+interrupts per second to 24 interrupt per second.
+\FIG{event_reduction} explains how the reduction is achieved.
+
+ \begin{figure}
 	\centering
-	\includegraphics[scale = 0.5 ]{Event_Reduction.JPG}
-	\caption{Event Reduction through DMA for Audio acquisition\label{event_reduction}}
+	\includegraphics[scale = 0.5 ]{Event_Reduction}
+\caption{Event Reduction through DMA for Audio acquisition}
+\label{event_reduction}
 \end{figure}
 
 
- The receiver DMA ping-pong buffer is of 2KB size and it takes 1000 interrupts and move the data into the buffer. When the buffer is full, the DMA interrupts the processor to take further actions. In the mean time the DMA starts servicing the interrupts filling up the pong buffer. Therefore during the situations where the processor is more prone to face the external interrupts, the event reduction approach using the DMA will be the solution.
+The receiver DMA ping-pong buffer is of 2~KB size, and it takes 1000
+interrupts to move the data into the buffer. When the buffer is full,
+the DMA interrupts the processor to take further actions. In the mean
+time, the DMA starts servicing the interrupts filling up the pong
+buffer. Therefore, during the situations where the processor is more
+prone to face the external interrupts, the event reduction approach
+using the DMA will be the solution.
  
- The intelligent waiting and the event reduction techniques together has brought down the DSP active time, utilization, to roughly 20.92 \%. The details of the calculation are presented in section \ref{utilization_result}.
+The intelligent waiting and the event reduction techniques together
+have brought down the DSP active time, utilization, to roughly
+20.92\%. The details of the calculation are presented in Section
+\ref{utilization_result}.
 
-\subsection{Intelligent peripheral shutdown}
-All the above methods are for the power consumption when the device is running. This method of intelligent shutdown is useful when the peripheral is clock or power gated when it is not in use. The C5515 processor continues to power the general purpose input output pins and peripherals during idle mode. As inputs, these I/O pins can be used as interrupts to wake up the device; as outputs, they can be used to configure to external peripherals. Careful configuration of how these pins are configured can have large effect on sleep mode power consumption. The DSP has separate power domains which provide power to different portions of the device. The separate power domains allows the firmware to select the optimal voltage to achieve the lowest power consumption at the best possible performance. There are 13 different power domains each of which powers a specific domain. Figure \ref{power_domain} gives the brief gist of the power domains. Body temperature is measured twice in a second. From figure \ref{body_temp} shows the simplified body temperature measurement circuitry. It can be understood that the ADC peripheral of the DSP will be used only twice every second. So BlueBox firmware enables the Analog power domain that powers the ADC only during the measurement. The Analog power domain and also the ADC peripheral is shutdown during the rest of the time. 
+\subsection{Intelligent Peripheral Shutdown}
+
+All the above methods are for the power consumption when the device
+is running. This method of intelligent shutdown is useful when the
+peripheral is clock or power gated when it is not in use. The C5515
+processor continues to power the general purpose input output pins
+and peripherals during idle mode. As inputs, these I/O pins can be
+used as interrupts to wake up the device; as outputs, they can be
+used to configure to external peripherals. Careful configuration of
+how these pins are configured can have large effect on sleep mode
+power consumption. The DSP has separate power domains which provide
+power to different portions of the device. The separate power domains
+allows the firmware to select the optimal voltage to achieve the
+lowest power consumption at the best possible performance. There are
+13 different power domains each of which powers a specific domain.
+Figure \ref{power_domain} gives the brief gist of the power domains.
+Body temperature is measured twice in a second. From figure
+\ref{body_temp} shows the simplified body temperature measurement
+circuitry. It can be understood that the ADC peripheral of the DSP
+will be used only twice every second. So BlueBox firmware enables the
+Analog power domain that powers the ADC only during the measurement.
+The Analog power domain and also the ADC peripheral is shutdown
+during the rest of the time. 
 
 \section{Power management of Storage Subsystem}
 Storage contributes to a significant fraction of power consumption of embedded system. With respect to data acquisition and logging system the fraction is somewhere between 30 to 50 \% . From the table \ref{table:power_rating} we can notice that power consumption of SDHC card is approximately equal to 50\% of the entire system when a read or write action is performed. It is thus required to manage the storage sub-sytem with atmost care. So the basic idea is to write or read as minimum as possible and only when it is required and keep the SDHC card utilization as low as possible.
