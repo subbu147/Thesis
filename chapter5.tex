@@ -151,10 +151,16 @@ further power savings for its dependent subsystem.
 \begin{cmtPai}
 	(2/17/2017) I don't know if I understand the last sentence
 \end{cmtPai}
- \begin{cmtSMS}
- 	What I wanted to say was that, an optimization in storage subsystem , i.e an efficient filesystem design that reduces the time to write the data, and thus increasing the idle time for the DSP. So an optimization in storage subsystem provides opportunity to put the DSP in idle for longer time. This is what i wished to express through that point.
- 	Maybe at this point the readers may not clearly get the idea. But in later section I talked about this again. I will try to elaborate it and make it understandable.
- \end{cmtSMS}
+\begin{cmtSMS}
+What I wanted to say was that, an optimization in storage subsystem ,
+i.e an efficient filesystem design that reduces the time to write the
+data, and thus increasing the idle time for the DSP. So an
+optimization in storage subsystem provides opportunity to put the DSP
+in idle for longer time. This is what i wished to express through
+that point.  Maybe at this point the readers may not clearly get the
+idea. But in later section I talked about this again. I will try to
+elaborate it and make it understandable.
+\end{cmtSMS}
   \begin{table}
  	\caption{Sub-Systems of BlueBox}
  	\label{table:sub-system}
@@ -195,17 +201,8 @@ A sensor is a device that converts real-world physical parameters
 into electrical signals that a computer can understand. They are the
 most important active part of the BlueBox system. As shown in Table
 \ref{table:sub-system}, BlueBox employs five different sensors, most
-of which are performing active real-time sensing.
-\begin{cmtPai}
-	(2/17/2017) ``active sensing'' means the sensor actually emits a
-	signal and measure the reflected signal (e.g., radar). Is that what
-	you mean here? If so, is that really true?
-\end{cmtPai}
-
-\begin{cmtSMS}
-		I did not mean that. I had an understanding that active sensing means the sensor is always actively measuring/sensing the physical quantity even though the measurement was not used. Unlike a triggered sensing/ measurement.
-		 	
-\end{cmtSMS}
+of which are actively measuring the physical signal in real-time, as
+opposed to a triggered measurement.
 
 They also do have a processing capabilities embodied with them. They
 contribute to the significant amount of power consumed by the system.
