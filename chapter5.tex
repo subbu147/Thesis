@@ -6,6 +6,11 @@ techniques
 \begin{cmtPai}
 	(2/17/2017) by ``primitive'' do you mean simple, not developed?
 \end{cmtPai}
+\begin{cmtSMS}
+	I actually thought "primitive techniques" meant some of the basic most important and well known techniques. 
+	I wrongly understood the meaning of the word. 	
+\end{cmtSMS}
+	
 used for power management. Section \ref{sec:designFlow} describes the design flow of
 power management techniques for BlueBox system. Section 5.5 to 5.7
 explains the details of those techniques.  
@@ -119,6 +124,9 @@ has been demonstrated by several researchers [63]
 \begin{cmtPai}
 	(2/17/2017) what do you mean by [63]? citation?
 \end{cmtPai}
+\begin{cmtSMS}
+	yes . It is a citation. I will fix it.
+\end{cmtSMS}
 that system- and architecture-level design decisions can have a great
 impact on power consumption. However, when designing a system it is a
 problem to predict the consequences and effectiveness of high-level
@@ -143,7 +151,10 @@ further power savings for its dependent subsystem.
 \begin{cmtPai}
 	(2/17/2017) I don't know if I understand the last sentence
 \end{cmtPai}
- 
+ \begin{cmtSMS}
+ 	What I wanted to say was that, an optimization in storage subsystem , i.e an efficient filesystem design that reduces the time to write the data, and thus increasing the idle time for the DSP. So an optimization in storage subsystem provides opportunity to put the DSP in idle for longer time. This is what i wished to express through that point.
+ 	Maybe at this point the readers may not clearly get the idea. But in later section I talked about this again. I will try to elaborate it and make it understandable.
+ \end{cmtSMS}
   \begin{table}
  	\caption{Sub-Systems of BlueBox}
  	\label{table:sub-system}
@@ -191,6 +202,11 @@ of which are performing active real-time sensing.
 	you mean here? If so, is that really true?
 \end{cmtPai}
 
+\begin{cmtSMS}
+		I did not mean that. I had an understanding that active sensing means the sensor is always actively measuring/sensing the physical quantity even though the measurement was not used. Unlike a triggered sensing/ measurement.
+		 	
+\end{cmtSMS}
+
 They also do have a processing capabilities embodied with them. They
 contribute to the significant amount of power consumed by the system.
 The first, and perhaps most direct, approach of our low power
@@ -218,6 +234,9 @@ It is eventually
 	(2/27/2017) what do you mean ``eventually''?  doesn't sound like
 	the right word.
 \end{cmtPai}
+\begin{cmtSMS}
+	I mean that it is a simple thermistor. I would rephrase it with right word.
+\end{cmtSMS}
 a thermistor. The voltage drop across this thermistor is a value
 proportional to the body temperature. The simplified circuitry of
 MA100 can be seen in \FIG{body_temp}.
