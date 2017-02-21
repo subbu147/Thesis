@@ -1,8 +1,9 @@
 \chapter{Low-Power Firmware Design Techniques}
 
 Chapter 5 first gives a background on general sources of power
-consumption in a digital system and describes some of the primitive
+consumption in a digital system and describes some of the basic
 techniques
+\begin{comment}
 \begin{cmtPai}
 	(2/17/2017) by ``primitive'' do you mean simple, not developed?
 \end{cmtPai}
@@ -10,7 +11,7 @@ techniques
 	I actually thought "primitive techniques" meant some of the basic most important and well known techniques. 
 	I wrongly understood the meaning of the word. 	
 \end{cmtSMS}
-	
+\end{comment}	
 used for power management. Section \ref{sec:designFlow} describes the design flow of
 power management techniques for BlueBox system. Section 5.5 to 5.7
 explains the details of those techniques.  
@@ -120,13 +121,15 @@ examples for energy reduction.
 At the highest level, the design decisions have the most influence.
 Therefore, the most effective design decisions derive from choosing
 and optimizing architectures and algorithms at the highest levels. It
-has been demonstrated by several researchers [63]
+has been demonstrated by several researchers \cite{63}
+\begin{comment}
 \begin{cmtPai}
 	(2/17/2017) what do you mean by [63]? citation?
 \end{cmtPai}
 \begin{cmtSMS}
 	yes . It is a citation. I will fix it.
 \end{cmtSMS}
+\end{comment}
 that system- and architecture-level design decisions can have a great
 impact on power consumption. However, when designing a system it is a
 problem to predict the consequences and effectiveness of high-level
@@ -147,11 +150,15 @@ three abstraction layers mentioned above. Our low-power design flow
 targets each of these three horizontal layers of the subsystems
 individually and the interdependent vertical layers within them. It
 is interesting that effect on a single subsystem creates space for
-further power savings for its dependent subsystem. 
+further power savings for its dependent subsystem. For example an
+optimization in storage subsystem provides opportunity to keep the DSP
+idle for longer time.
+\begin{comment}
 \begin{cmtPai}
 	(2/17/2017) I don't know if I understand the last sentence
 \end{cmtPai}
 \begin{cmtSMS}
+
 What I wanted to say was that, an optimization in storage subsystem ,
 i.e an efficient filesystem design that reduces the time to write the
 data, and thus increasing the idle time for the DSP. So an
@@ -161,6 +168,7 @@ that point.  Maybe at this point the readers may not clearly get the
 idea. But in later section I talked about this again. I will try to
 elaborate it and make it understandable.
 \end{cmtSMS}
+\end{comment}
   \begin{table}
  	\caption{Sub-Systems of BlueBox}
  	\label{table:sub-system}
@@ -226,7 +234,8 @@ application semantics that decides the best modes of operation and
 how often transitions need to be triggered. 
  
 Considering the body temperature sensor (MA100) from BlueBox system.
-It is eventually
+It is
+\begin{comment}
 \begin{cmtPai}
 	(2/27/2017) what do you mean ``eventually''?  doesn't sound like
 	the right word.
@@ -234,7 +243,8 @@ It is eventually
 \begin{cmtSMS}
 	I mean that it is a simple thermistor. I would rephrase it with right word.
 \end{cmtSMS}
-a thermistor. The voltage drop across this thermistor is a value
+\end{comment}
+a simple thermistor. The voltage drop across this thermistor is a value
 proportional to the body temperature. The simplified circuitry of
 MA100 can be seen in \FIG{body_temp}.
 
@@ -379,10 +389,15 @@ technique in detail.
 \subsection{Intelligent Waiting}
 
 The TMS320C5515 DSP includes various run-time power modes that can be
-used to scale down power consumption. The most common of important
+used to scale down power consumption. The most common
+\begin{comment}
 \begin{cmtPai}
 	(2/18/2017) huh? what does that mean?
 \end{cmtPai}
+\begin{cmtSMS}
+(2/21/2017) Fixed. 
+\end{cmtSMS}
+\end{comment}
 is idle mode of operation, in which the instruction-executing portion
 of the processor core shuts down while all peripherals and interrupts
 remain powered-on and active. Idle mode consumes substantially less
@@ -409,13 +424,16 @@ Another important technique employed is event reduction.  Whereas
 intelligent waiting enables the processor to enter its idle mode as
 often as possible, event reduction attempts to keep the processor in
 idle mode for as long as possible. It is implemented by analyzing the
-application firmware code and system requirements to determine the
-effect of alteration
+application firmware code and system requirements. It is also required to make sure that the effect of optimization
+\begin{comment}
 \begin{cmtPai}
 	(2/18/2017) ?? what do you mean ``alteration''?
 \end{cmtPai}
-of processing the interrupts. The interrupts associated with the
-BlueBox are periodic external interrupts to trigger the processor to
+\begin{cmtSMS}
+	I wanted to mean that the effect of overhead associated with event reduction could affect the system requirement. For example: Event reduction reduces the number of events, but the could increase the ISR	runtime as more aggregated work needs to be done. This increase in worst case execution time of a particular ISR might affect the schedulability of the other ISR.
+\end{cmtSMS}
+\end{comment}
+of processing the interrupt/event does not affect other functionalities. The interrupts associated with the BlueBox are periodic external interrupts to trigger the processor to
 read and collect the data. There are totally 24000 audio interrupts
 generated every second by the audio codec. If the processor handles
 all the interrupts, it will not have suffient time to go to idle mode

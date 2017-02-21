@@ -206,7 +206,9 @@ previous sections and store them, and it must be able to function for
 the resource to control the system and to keep the power consumption
 as low as possible. A low-power digital signal processor (DSP) is
 well suited for this task. The hardware system has to be designed in
-such a way that the DSP expose enough control to the firmware,
+such a way that the DSP has enough control over all the peripherals 
+and sensors in the hardware
+\begin{comment}
 \begin{cmtPai}
 	(2/17/2017) I don't understand what you mean here
 \end{cmtPai}
@@ -217,6 +219,7 @@ such a way that the DSP expose enough control to the firmware,
 	Firmware should have extensive control over all the components.	
 	 
 \end{cmtSMS}
+\end{comment}
 in order to perform extensive resource and power management. The
 low-power DSP must have enough communication resource to communicate
 with the sensors (accelerometer, SD card, audio codec, etc.),

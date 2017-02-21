@@ -134,18 +134,18 @@ sampling, 24-bit, delta-sigma ($\Delta$$\Sigma$) analog-to-digital
 converters (ADCs) with a built-in programmable gain amplifier (PGA),
 internal reference, and an on-board oscillator. ADS1292R incorporate
 all features commonly required in portable, low-power medical
-electrocardiogram (ECG), sports, and fitness applications. With high
-levels of integration and exceptional performance,
-
+electrocardiogram (ECG), sports, and fitness applications.
+\begin{comment}
 \begin{cmtPai}
 	(2/17) uh... ``exceptional performance'' sounds too much like
 	marketing speak.  Make sure you don't copy writeup directly from
 any of the product literature.
 \end{cmtPai}
 \begin{cmtSMS}
-	(2/18) okay professor, I will edit this section and tone down the prodct literature contents.
+	(2/18) okay professor, I will edit this section and tone down the prodct literature contents. Fixed.
 \end{cmtSMS}
-the ADS1292R enables the creation of scalable medical instrumentation
+\end{comment}
+ADS1292R enables the creation of scalable medical instrumentation
 systems at significantly reduced size, power, and overall cost.
 ADS1292R has a flexible input multiplexer per channel that can be
 independently connected to the internally generated signals for test,
@@ -225,6 +225,7 @@ resolution takes somewhere between 9 and 11 ms.
 \subsection{MA100: Body temperature sensor} 
 
 MA100 is a Biomedical Chip Thermistor assemblies
+\begin{comment}
 \begin{cmtPai}
 	(2/17/2017) how do you parse this?  I think the point is that a
 	thermistor is the common type of sensor for body tempedrature
@@ -233,6 +234,7 @@ MA100 is a Biomedical Chip Thermistor assemblies
 	says it but the point does not come across as one of the key
 	points.
 \end{cmtPai}
+\end{comment}
 that are designed for use in applications involving both intermittent
 and continuous patient temperature monitoring. Although low in cost
 and small in size, these are highly stable, precision thermo-chips
@@ -245,7 +247,8 @@ and fast response time that are often required.
 The BlueBox system has on-chip memory and the persistent Micro-SDHC
 (Secure Digital High Capacity) card storage. Because a MicroSD
 card is power intensive and takes hundreds of milliseconds to write
-to, the on-chip memory is used as buffer.
+to, the DSP's on-chip memory is used as buffer to store data intermittently.
+\begin{comment}
 \begin{cmtPai}
 	(2/17/2017) are you talking about memory on DSP? Or some buffer in
 	the SDHC?
@@ -254,16 +257,20 @@ to, the on-chip memory is used as buffer.
 	(2/18/2017) I am talking about the memory on DSP. We cache data in a local buffer of DSP and then write it to the SDHC card.
 	I will rephrase it to make sure it clear to understand.
 \end{cmtSMS}
+\end{comment}
+
 Once there is enough data in the buffer it is written to the SD card
-and can be accessed by a computer.
+and later the data can be accessed by a computer.
+\begin{comment}
 \begin{cmtPai}
 	(2/17/2017) what can be accessed by a computer?
 \end{cmtPai}
 \begin{cmtSMS}
 	(2/18/2017) the data stored in the sd card can be accesses by a computer. I will rephrase it in a better way.
 \end{cmtSMS}
+\end{comment}
 All the heavy-lifting data transfers are done with the help of Direct
-Memory access (DMA) peripheral interconnect to take load off the DSP.
+Memory Access (DMA) peripheral interconnect to take load off the DSP.
 SD card is interfaced to DSP using MMC/SD interface. The SD card used
 for the application is a high capacity card that can support a
 maximum clock frequency of 50~MHz. These high capacity cards are not
@@ -278,12 +285,14 @@ operated at 50~MHz during active read/write operation and consumes
 A GMB 302547 Lithium ion polymer rechargeable battery, shown in
 \FIG{fig:battery}, is used to power the system. It has a
 capacity of 300~mAH at 3.7~V. It is 4~cm long, 2~cm wide and 0.2~mm
+\begin{comment}
 \begin{cmtPai}
 	(2/17/2017) are you sure 0.2 mm thick?
 \end{cmtPai}
 \begin{cmtSMS}
 	(2/18/2017) I am kind of sure its thickness is very small. I referred to the data sheet. 
 \end{cmtSMS}
+\end{comment}
 thick, and it weighs 8 grams. The battery is placed on top of the
 central board housing. The central board has a battery charging
 circuitry that can charge the battery completely in 2 hours. The
