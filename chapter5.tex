@@ -483,24 +483,58 @@ allows the firmware to select the optimal voltage to achieve the
 lowest power consumption at the best possible performance. There are
 13 different power domains each of which powers a specific domain.
 Figure \ref{power_domain} gives the brief gist of the power domains.
-Body temperature is measured twice in a second. From figure
-\ref{body_temp} shows the simplified body temperature measurement
+Body temperature is measured twice in a second. 
+\FIG{body_temp} shows the simplified body temperature measurement
 circuitry. It can be understood that the ADC peripheral of the DSP
 will be used only twice every second. So BlueBox firmware enables the
-Analog power domain that powers the ADC only during the measurement.
-The Analog power domain and also the ADC peripheral is shutdown
+analog power domain that powers the ADC only during the measurement.
+The analog power domain and also the ADC peripheral are shut down
 during the rest of the time. 
 
-\section{Power management of Storage Subsystem}
-Storage contributes to a significant fraction of power consumption of embedded system. With respect to data acquisition and logging system the fraction is somewhere between 30 to 50 \% . From the table \ref{table:power_rating} we can notice that power consumption of SDHC card is approximately equal to 50\% of the entire system when a read or write action is performed. It is thus required to manage the storage sub-sytem with atmost care. So the basic idea is to write or read as minimum as possible and only when it is required and keep the SDHC card utilization as low as possible.
-Storage subsystem involves the SDHC card and MMC/SD interface from the DSP. As mentioned in section \ref{memory} SDHC card is block addressable. Blocks of size 512 bytes can be written or read from the SD card. So the processor has to buffer or cache blocks of data and write them into the SD card.  
+\section{Power Management of Storage Subsystem}
 
-The five different signals have to be stored in the SD card. BlueBox system groups these signals into two category. One just has the audio signal and other has ECG, accelerometer and temperature data. There are buffers associated with each of these categories and the respective data is written into them and eventually flushed to the SD card. The reason for such categorization is because of the amount of data produced by these signals. Audio data is produces at a rate of 48 kilobyte every second, so it makes sense to have dedicated buffer for themselves to be stored. The other signals are sampled comparatively very less, so they could be grouped together to share buffers and are written into the SD card. 
+Storage contributes to a significant fraction of power consumption of
+many embedded systems. With respect to data acquisition and logging
+system, the fraction is somewhere between 30 to 50\%. From
+Table~\ref{table:power_rating}, we can notice that power consumption
+of the SDHC card is about half of that of the entire system when a
+read or write action is performed. It is thus required to manage the
+storage sub-sytem with utmost care. So, the basic strategy is to
+write or read only when it is required and to keep the SDHC card
+utilization as low as possible.  Storage subsystem involves the SDHC
+card and MMC/SD interface from the DSP. As explained in Section
+\ref{memory}, the SDHC card is block addressable.  Blocks of size 512
+bytes can be written or read from the SD card. So, the processor has
+to buffer or cache blocks of data and write them to the SD card.  
 
- The ECG analog front end interrupts the DSP at a frequency of 500Hz. Each sample collected during the interrupt is appended to the buffer. Because accelerometer only needs to be sampled at 12Hz, a counter within the interrupt ensures that accelerometer is sampled only once every 40 interrupts. Similarly the temperature is to be sampled at 2 Hz, a counter within the interrupt service routine is used to make sure samples are taken every 250 interrupts. Each time the signals are sampled, values from each of the sensors are stored in the respective position in the buffer. 
-\subsection{Saving data to micro SD card}
+When recording five different signal streams onto the SD card, 
+BlueBox system organizes them into two categories:
+the audio signal is in its own category, while ECG, accelerometer,
+and temperature data are in the other.
+\begin{cmtPai}
+	(2/21/2017) so that is four signal streams, not five?
+	what about time stamp?
+\end{cmtPai}
+Separate buffers are associated with each of these categories, and
+the respective data is written into them and eventually flushed to
+the SD card. The reason for separating out the audio into its own
+category is its data rate of 48 KB/s, which is higher than the other
+signals combined.  So, it makes sense to have dedicated buffer for
+audio while having the other signals share a buffer.
 
-Because the BlueBox must be able to function continuously, the interrupt services must continue to operate even when data is being written to SD card. So DMA's are used to write the data into the SD card as it can do the task without the interference of the DSP. When possible, sampled data is saved directly to a primary data buffer. When the primary data buffer is full DMA is instructed to initiate the transfer of the data from primary buffer into the SD card persistent storage. In the meantime data collected is stored in the secondary buffer and the cycle goes on. 
+The ECG analog front end interrupts the DSP at a frequency of 500~Hz.
+Each sample collected during the interrupt is appended to the buffer.
+Because the accelerometer only needs to be sampled at 12~Hz, a
+counter within the interrupt ensures that the accelerometer is
+sampled only once every 40 interrupts. Similarly, since the
+temperature is to be sampled at 2~Hz, a counter within the interrupt
+service routine is used to take a sample every 250 interrupts. Each
+time the signals are sampled, values from each of the sensors are
+stored in the respective position in the buffer. 
+
+\subsection{Saving Data to MicroSD Card}
+
+Because the BlueBox must be able to function continuously, the interrupt services must continue to operate even when data is being written to SD card. So, DMAs are used to write the data to the SD card as it can do the task without the interference of the DSP. When possible, sampled data is saved directly to a primary data buffer.  When the primary data buffer is full DMA is instructed to initiate the transfer of the data from primary buffer into the SD card persistent storage. In the meantime data collected is stored in the secondary buffer and the cycle goes on. 
 
  There are lot of different ways of writing and organizing the data in the SD card. One way is to use existing filesystem that is recognizable by the general operating system, other way is to write the raw data and to design a n application specific custom filesystem. There are pros and cons associated with designing a new filesystem. Using a existing standard filesystem like FAT, NTFS etc., are really simple to implement as standard libraries are present but they were all designed for user comfortability and are designed for higher end computational devices. There is a huge overhead associated with storing and reading of data. For example, in order to write a block of data into a file, first it takes multiple SD card reads to figure out to which block address the data should be written then the actual processes of writing happens. This process keeps the SD card busy for longer duration, which is very undesirable for our application. It is required to come up with a simple custom filesystem that could suffice the necessity of application. The problems of custom filesystem is incompatibility with standard operating systems. To read data from the custom formatted SD card, it is required to develop a filesystem driver which is capable of reading this SD card. It requires some time to implement and test the custom filesystem. The important thing here to notice is that the custom filesystem could potentially save time and power it consumes to write data to the SD card.
 
